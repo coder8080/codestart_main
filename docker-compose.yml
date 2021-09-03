@@ -1,0 +1,51 @@
+version: "3"
+
+services:
+  backend:
+    container_name: codestart-backend
+    build: ./backend
+    command: npm run dev
+    environment:
+      - PORT=3000
+      - MONGO_URL=mongodb://database:27017
+    depends_on:
+      - database
+    networks:
+      - codestart-network
+    restart: unless-stopped
+  database:
+    container_name: codestart-database
+    image: mongo:latest
+    volumes:
+      - database:/data/db
+    networks:
+      - codestart-network
+    restart: unless-stopped
+  frontend:
+    container_name: codestart-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    command: serve -s dist -l 8080
+    networks:
+      - codestart-network
+    restart: unless-stopped
+  nginx:
+    container_name: codestart-nginx
+    image: nginx:stable-alpine
+    depends_on:
+      - frontend
+      - backend
+    volumes:
+      - ./nginx/nginx.conf.prod:/etc/nginx/conf.d/nginx.conf
+    networks:
+      - codestart-network
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+volumes:
+  database:
+
+networks:
+  codestart-network:
+    driver: bridge

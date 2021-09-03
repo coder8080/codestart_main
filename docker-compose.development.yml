@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  frontend:
+    command: "npm run serve"
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./frontend/src:/usr/src/app/src
+    stdin_open: true
+    tty: true
+  backend:
+    command: npm run dev
+    volumes:
+      - ./backend/src:/usr/src/app/src
+  nginx:
+    volumes:
+      - ./nginx/nginx.conf.dev:/etc/nginx/conf.d/nginx.conf
