@@ -10,6 +10,9 @@ services:
       - ./frontend/src:/usr/src/app/src
     stdin_open: true
     tty: true
+  database:
+    ports:
+      - "27017:27017"
   backend:
     command: npm run dev
     volumes:

@@ -13,6 +13,15 @@ services:
     networks:
       - codestart-network
     restart: unless-stopped
+  lessons:
+    container_name: codestart-lessons
+    build: ./lessons
+    command: npm start
+    ports:
+      - "5000:8080"
+    networks:
+      - codestart-network
+    restart: unless-stopped
   database:
     container_name: codestart-database
     image: mongo:latest

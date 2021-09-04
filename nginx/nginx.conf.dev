@@ -9,4 +9,9 @@ server {
     location /api {
         proxy_pass http://backend:3000;
     }
+
+    location /lessons {
+        proxy_pass http://lessons:8080;
+        rewrite ^/lessons/(.*) /$1 break;
+    }
 }
