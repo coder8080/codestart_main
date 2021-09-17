@@ -7,8 +7,10 @@ services:
     command: npm run dev
     environment:
       - PORT=3000
+      - MAILER_URL=http://mailer:3003
       - MONGO_URL=mongodb://database:27017
       - SECRET=secret_key
+      - DOMAIN=http://localhost:8080
     depends_on:
       - database
     networks:
@@ -17,11 +19,21 @@ services:
   lessons:
     container_name: codestart-lessons
     build: ./lessons
-    command: npm start
-    ports:
-      - "5000:8080"
+    command: npm run start
     networks:
       - codestart-network
+    restart: unless-stopped
+  mailer:
+    container_name: codestart-mailer
+    build: ./mailer
+    command: npm run start
+    networks:
+      - codestart-network
+    environment:
+      - PORT=3003
+      - HOST=smtp.gmail.com
+      - LOGIN=your_mail_login(without @gmail.com)
+      - PASSWORD=your_mail_password
     restart: unless-stopped
   database:
     container_name: codestart-database
