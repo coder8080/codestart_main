@@ -36,17 +36,7 @@ git clone https:///github.com/coder8080/codestart_main
 cd codestart_main
 ```
 
-Так как код разбит на микросервисы, у каждого свой репозиторий.
-Скачиваем оставшиеся микросервисы:
-
-```bash
-git clone https://github.com/coder8080/codestart_frontend frontend
-git clone https://github.com/coder8080/codestart_backend backend
-git clone https://github.com/coder8080/codestart_lessons lessons
-git clone https://github.com/coder8080/codestart_mailer mailer
-```
-
-и запускаем проект:
+Затем запускаем проект:
 
 ```bash
 docker-compose up --build
