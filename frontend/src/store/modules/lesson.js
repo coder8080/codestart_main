@@ -50,13 +50,26 @@ const mutations = {
     },
 
     [solutionMutationTypes.createSolutionSuccess](state, { solution, question }) {
-        console.log(solution)
-        console.log(question)
         for (let i = 0; i < state.data.questions.length; i++) {
-            console.log(i)
             if (state.data.questions[i]._id === question) {
-                state.data.questions[i].solutions.push(solution)
+                if (state.data.questions[i].solutions) {
+                    state.data.questions[i].solutions.push(solution)
+                } else {
+                    state.data.questions[i].solutions = [solution]
+                }
             }
+        }
+    },
+
+    [questionMutationTypes.deleteQuestionSuccess](state, id) {
+        let removeIndex = -1
+        for (let i = 0; i < state.data.questions.length; i++) {
+            if (state.data.questions[i]._id === id) {
+                removeIndex = i
+            }
+        }
+        if (removeIndex >= 0) {
+            state.data.questions.splice(removeIndex, 1)
         }
     },
 }

@@ -59,7 +59,20 @@
                                 aria-labelledby="headingOne"
                             >
                                 <div class="accordion-body">
-                                    <i class="bi-pencil-square"></i>&nbsp;{{ question.description }}
+                                    <div class="row">
+                                        <div class="col">
+                                            <i class="bi-pencil-square"></i>&nbsp;{{ question.description }}
+                                        </div>
+                                        <div class="col text-end">
+                                            <button
+                                                class="btn btn-outline-danger ms-3"
+                                                v-on:click="onDeleteQuestion(question._id)"
+                                                v-if="currentUser.username == question.ownerUsername"
+                                            >
+                                                <i class="bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="container-fluid pb-2">
                                     <hr />
@@ -76,24 +89,26 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div v-if="!question.solutions[0]">
+                                    <div v-if="!question.solutions || question.solutions == 0">
                                         <hr />
                                         <p>Решений пока нет</p>
                                     </div>
-                                    <div v-for="solution of question.solutions" :key="solution._id">
-                                        <p>
-                                            <router-link
-                                                :to="{
-                                                    name: 'UserProfile',
-                                                    params: { username: solution.ownerUsername },
-                                                }"
-                                                class="a-black"
-                                                ><i class="bi-person-circle"></i>&nbsp;{{
-                                                    solution.ownerUsername
-                                                }}</router-link
-                                            >:
-                                            {{ solution.text }}
-                                        </p>
+                                    <div v-if="question.solutions">
+                                        <div v-for="solution of question.solutions" :key="solution._id">
+                                            <p>
+                                                <router-link
+                                                    :to="{
+                                                        name: 'UserProfile',
+                                                        params: { username: solution.ownerUsername },
+                                                    }"
+                                                    class="a-black"
+                                                    ><i class="bi-person-circle"></i>&nbsp;{{
+                                                        solution.ownerUsername
+                                                    }}</router-link
+                                                >:
+                                                {{ solution.text }}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -185,7 +200,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Ответить вопрос</h5>
+                        <h5 class="modal-title">Ответить на вопрос</h5>
                     </div>
                     <form v-on:submit.prevent="onCreateSolution">
                         <div class="modal-body">
@@ -354,6 +369,10 @@ export default {
             modal.style.transform = 'translate(-50%, -100%)'
             let dimming = document.getElementById('dimming')
             dimming.style.display = 'none'
+        },
+
+        onDeleteQuestion(id) {
+            this.$store.dispatch(questionActionTypes.deleteQuestion, id)
         },
     },
 }

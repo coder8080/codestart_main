@@ -1,4 +1,5 @@
 const Question = require('../models/question')
+const Solution = require('../models/solution')
 
 module.exports.createQuestion = async (req, res) => {
     user = req.body.user
@@ -47,5 +48,6 @@ module.exports.deleteQuestion = async (req, res) => {
         return
     }
     await Question.deleteOne({ _id: id })
+    await Solution.deleteMany({ question: id })
     res.status(200).end()
 }
