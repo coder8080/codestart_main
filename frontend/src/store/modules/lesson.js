@@ -1,5 +1,6 @@
 import lessonApi from '@/api/lesson'
 import { mutationTypes as questionMutationTypes } from '@/store/modules/question'
+import { mutationTypes as solutionMutationTypes } from '@/store/modules/solution'
 
 const state = {
     data: null,
@@ -46,6 +47,17 @@ const mutations = {
 
     [questionMutationTypes.createQuestionSuccess](state, question) {
         state.data.questions.push(question)
+    },
+
+    [solutionMutationTypes.createSolutionSuccess](state, { solution, question }) {
+        console.log(solution)
+        console.log(question)
+        for (let i = 0; i < state.data.questions.length; i++) {
+            console.log(i)
+            if (state.data.questions[i]._id == question) {
+                state.data.questions[i].solutions.push(solution)
+            }
+        }
     },
 }
 export const actionTypes = {

@@ -12,12 +12,22 @@ module.exports.getLesson = async (req, res) => {
         if (lesson) {
             const subLessons = await SubLesson.find({ parent: number })
             const questions = await Question.find({ lesson: number })
-            for (let i = 0; i++; i < questions.length) {
+            for (let i = 0; i < questions.length; i++) {
+                question = questions[i]
                 const solutions = await Solution.find({
-                    question: questions[i]._id,
+                    question: question._id,
                 })
-                questions[i].solutions = solutions
+                questions[i] = {
+                    _id: question._id,
+                    ownerUsername: question.ownerUsername,
+                    lesson: question.lesson,
+                    title: question.title,
+                    description: question.description,
+                    isBanned: question.isBanned,
+                    solutions,
+                }
             }
+            console.log
             res.status(200).json({
                 lesson: {
                     number: lesson.number,

@@ -9,6 +9,7 @@ import subLesson from '@/store/modules/subLesson'
 import program from '@/store/modules/program'
 import profile from '@/store/modules/profile'
 import question from '@/store/modules/question'
+import solution from '@/store/modules/solution'
 
 Vue.use(Vuex)
 
@@ -26,5 +27,6 @@ export default new Vuex.Store({
         program,
         profile,
         question,
+        solution,
     },
 })

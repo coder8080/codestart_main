@@ -50,7 +50,7 @@
                                     aria-expanded="true"
                                     :aria-controls="'a' + question._id"
                                 >
-                                    {{ question.title }}
+                                    <h4><i class="bi-patch-question"></i>&nbsp;{{ question.title }}</h4>
                                 </button>
                             </h2>
                             <div
@@ -59,15 +59,43 @@
                                 aria-labelledby="headingOne"
                             >
                                 <div class="accordion-body">
-                                    {{ question.description }}
+                                    <i class="bi-pencil-square"></i>&nbsp;{{ question.description }}
                                 </div>
-                                <hr />
-                                <div class="container-fluid">
-                                    <button class="btn btn-outline-info" v-on:click="openCreateSolution">
-                                        Ответить
-                                    </button>
+                                <div class="container-fluid pb-2">
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h5><i class="bi-lightbulb"></i>&nbsp;Решения</h5>
+                                        </div>
+                                        <div class="col-6 text-end">
+                                            <button
+                                                class="btn btn-outline-info text-end"
+                                                v-on:click="openCreateSolution(question._id)"
+                                            >
+                                                <i class="bi-plus-circle"></i>&nbsp;Ответить
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div v-if="!question.solutions[0]">
+                                        <hr />
+                                        <p>Решений пока нет</p>
+                                    </div>
+                                    <div v-for="solution of question.solutions" :key="solution._id">
+                                        <p>
+                                            <router-link
+                                                :to="{
+                                                    name: 'UserProfile',
+                                                    params: { username: solution.ownerUsername },
+                                                }"
+                                                class="a-black"
+                                                ><i class="bi-person-circle"></i>&nbsp;{{
+                                                    solution.ownerUsername
+                                                }}</router-link
+                                            >:
+                                            {{ solution.text }}
+                                        </p>
+                                    </div>
                                 </div>
-                                <hr />
                             </div>
                         </div>
                     </div>
@@ -140,6 +168,7 @@
                             </div>
                             <app-errors v-if="questionErrors" :errors="questionErrors" />
                         </div>
+                        <app-errors v-if="questionErrors" :errors="questionErrors" />
                         <div class="modal-footer">
                             <button class="btn btn-success" type="submit">
                                 <i class="bi-check"></i>&nbsp;Задать вопрос
@@ -170,6 +199,7 @@
                             ></textarea>
                             <div class="form-text">Понятно сформулируйте ваш ответ</div>
                         </div>
+                        <app-errors v-if="solutionErrors" :errors="solutionErrors" />
                         <div class="modal-footer">
                             <button class="btn btn-success" type="submit">
                                 <i class="bi-check"></i>&nbsp;Ответить
@@ -189,6 +219,7 @@
 <script>
 import { actionTypes } from '@/store/modules/lesson'
 import { actionTypes as questionActionTypes } from '@/store/modules/question'
+import { actionTypes as solutionActionTypes } from '@/store/modules/solution'
 import { mapState } from 'vuex'
 import AppLoading from '@/components/Loading'
 import AppLoginRequest from '@/components/LoginRequest'
@@ -212,6 +243,7 @@ export default {
                 description: '',
             },
             solution: '',
+            openedQuestion: '',
         }
     },
     computed: {
@@ -219,9 +251,10 @@ export default {
             isLoading: (state) => state.lesson.isLoading,
             lesson: (state) => state.lesson.data,
             errors: (state) => state.lesson.errors,
+            questionErrors: (state) => state.question.errors,
+            solutionErrors: (state) => state.solution.errors,
             isLoggedIn: (state) => state.auth.isLoggedIn,
             currentUser: (state) => state.auth.currentUser,
-            questionErrors: (state) => state.question.errors,
         }),
         videoPath() {
             return 'http://localhost:8080/lessons/' + this.lesson.video
@@ -271,6 +304,17 @@ export default {
                     this.question.description = ''
                 })
         },
+        onCreateSolution() {
+            this.$store
+                .dispatch(solutionActionTypes.createSolution, {
+                    question: this.openedQuestion,
+                    text: this.solution,
+                })
+                .then(() => {
+                    this.closeCreateSolution()
+                    this.solution = ''
+                })
+        },
 
         openLessonEnd() {
             let modal = document.getElementById('lessonEnd')
@@ -284,11 +328,13 @@ export default {
             let dimming = document.getElementById('dimming')
             dimming.style.display = 'block'
         },
-        openCreateSolution() {
+        openCreateSolution(id) {
             let modal = document.getElementById('createSolution')
             modal.style.transform = 'translate(-50%, 0)'
             let dimming = document.getElementById('dimming')
             dimming.style.display = 'block'
+            console.log(id)
+            this.openedQuestion = id
         },
 
         closeLessonEnd() {
