@@ -9,75 +9,11 @@ import { actionTypes } from '@/store/modules/auth'
 import AppTopBar from '@/components/TopBar'
 import getTitle from '@/helpers/title'
 import { mapState } from 'vuex'
-let style = document.createElement('style')
+let style = document.createElement('link')
 
-style.rel = 'stylesheet'
-style.type = 'text/css'
-style.innerHTML = `
-.a-black {
-    color: whitesmoke !important;
-}
-
-body {
-    background-color: #222222;
-    color: whitesmoke;
-}
-
-li.list-group-item {
-    background-color: #262a36 !important;
-}
-
-li.list-group-item.active {
-    background-color: #0d6efd !important;
-}
-
-li.list-group-item a {
-    color: whitesmoke;
-}
-
-li.list-group-item i {
-    color: whitesmoke;
-}
-
-.card,
-.card-body {
-    background-color: #262a36 !important;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    color: white;
-}
-
-input,
-textarea {
-    background-color: #262a36 !important;
-    color: whitesmoke !important;
-    border: 1px solid black !important;
-}
-.modal-dialog,
-.modal-content {
-    background-color: #262a36 !important;
-}
-
-.accordion-item,
-.accordion-button {
-    background-color: #262a36 !important;
-}
-.accordion-button.collapsed {
-    color: white !important;
-}
-.accordion-collapse {
-    background-color: #0c2233;
-}
-.accordion-button.accordion-button.collapsed::after {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
-}
-`
+style.setAttribute('rel', 'stylesheet')
+style.setAttribute('href', '/dark.css')
+style.setAttribute('type', 'text/css')
 
 export default {
     name: 'App',
