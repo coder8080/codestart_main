@@ -1,17 +1,11 @@
 <template>
     <div class="container-fluid">
-        <link
-            v-if="isDarkTheme"
-            rel="stylesheet"
-            href="./themes/sunburst.css"
-        />
+        <link v-if="isDarkTheme" rel="stylesheet" href="./themes/sunburst.css" />
         <link v-if="!isDarkTheme" rel="stylesheet" href="./themes/github.css" />
         <app-errors v-if="errors" :errors="errors" />
         <app-loading v-if="isLoading" />
         <template v-if="program">
-            <h1 class="text-center mb-3">
-                <i class="bi-hash"></i>&nbsp;{{ program.title }}
-            </h1>
+            <h1 class="text-center mb-3"><i class="bi-hash"></i>&nbsp;{{ program.title }}</h1>
             <div class="row">
                 <div class="col-12 col-md-7 col-lg-7">
                     <h2><i class="bi-code-square"></i>&nbsp;Код</h2>
@@ -25,11 +19,7 @@
                             class="btn btn-outline-primary"
                             >Редактировать</router-link
                         >
-                        <button
-                            v-on:click="onDelete"
-                            class="btn btn-outline-danger ms-2"
-                            :disabled="isDeleting"
-                        >
+                        <button v-on:click="onDelete" class="btn btn-outline-danger ms-2" :disabled="isDeleting">
                             Удалить
                         </button>
                     </div>
@@ -75,14 +65,14 @@ export default {
         },
         isDarkTheme() {
             if (this.currentUser) {
-                return this.currentUser.theme == 'dark'
+                return this.currentUser.theme === 'dark'
             } else {
                 return false
             }
         },
         isMine() {
             if (this.currentUser) {
-                return this.currentUser.username == this.program.ownerUsername
+                return this.currentUser.username === this.program.ownerUsername
             } else {
                 return false
             }
@@ -97,14 +87,12 @@ export default {
     methods: {
         onDelete() {
             if (confirm('Вы уверены, что хотите удалить программу?')) {
-                this.$store
-                    .dispatch(actionTypes.deleteProgram, this.program._id)
-                    .then(() => {
-                        this.$router.push({
-                            name: 'UserProfile',
-                            params: { username: this.currentUser.username },
-                        })
+                this.$store.dispatch(actionTypes.deleteProgram, this.program._id).then(() => {
+                    this.$router.push({
+                        name: 'UserProfile',
+                        params: { username: this.currentUser.username },
                     })
+                })
             }
         },
     },

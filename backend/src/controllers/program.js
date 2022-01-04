@@ -105,8 +105,7 @@ module.exports.editProgram = async (req, res) => {
     }
     program = (await Program.find({ _id: id }))[0]
     if (!program) errors.push('нет программы с таким id')
-    if (program.ownerUsername != user.username)
-        errors.push('программа не принадлежит вам')
+    if (program.ownerUsername != user.username) errors.push('программа не принадлежит вам')
     if (errors[0]) {
         res.status(401).json({ errors })
         return
@@ -140,5 +139,5 @@ module.exports.checkAffiliation = async (req, res) => {
         res.status(404).json({ errors: ['нет программы с таким id'] })
         return
     }
-    res.status(200).json({ allowed: program.ownerUsername == user.username })
+    res.status(200).json({ allowed: program.ownerUsername === user.username })
 }

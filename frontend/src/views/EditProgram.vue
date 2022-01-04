@@ -3,66 +3,33 @@
         <app-loading v-if="isLoading" />
         <template v-if="!isLoading && isAllowedToEdit">
             <form v-on:submit.prevent="onSubmit">
-                <h1 class="text-center">
-                    Редактировать программу<br />"{{ program.title }}"
-                </h1>
+                <h1 class="text-center">Редактировать программу<br />"{{ program.title }}"</h1>
                 <div class="mb-3">
                     <label for="title" class="form-label">Название</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="title"
-                        v-model="program.title"
-                    />
+                    <input type="text" class="form-control" id="title" v-model="program.title" />
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Описание</label>
-                    <textarea
-                        id="description"
-                        class="form-control"
-                        rows="3"
-                        v-model="program.description"
-                    ></textarea>
+                    <textarea id="description" class="form-control" rows="3" v-model="program.description"></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="" class="form-label">Язык программы</label>
                     <div class="form-check">
-                        <input
-                            class="form-check-input"
-                            value="html"
-                            type="radio"
-                            id="html"
-                            v-model="program.lang"
-                        />
-                        <label class="form-check-label" for="html"
-                            >HTML / CSS / JS</label
-                        >
+                        <input class="form-check-input" value="html" type="radio" id="html" v-model="program.lang" />
+                        <label class="form-check-label" for="html">HTML / CSS / JS</label>
                     </div>
-                    <div class="form-text">
-                        Работаю над поддержкой большего количества языков.
-                    </div>
+                    <div class="form-text">Работаю над поддержкой большего количества языков.</div>
                 </div>
                 <div class="mb-3">
                     <label for="code" class="form-label">Код</label>
-                    <textarea
-                        class="form-control"
-                        id="code"
-                        rows="10"
-                        v-model="program.code"
-                        required
-                    ></textarea>
+                    <textarea class="form-control" id="code" rows="10" v-model="program.code" required></textarea>
                 </div>
                 <div class="mb-3">
                     <app-errors v-if="errors" :errors="errors" />
                 </div>
                 <div class="mb-3">
                     <div class="buttons-container">
-                        <button
-                            class="btn btn-success"
-                            :disabled="isSubmitting"
-                        >
-                            Сохранить
-                        </button>
+                        <button class="btn btn-success" :disabled="isSubmitting">Сохранить</button>
                         <app-loading v-if="isSubmitting" class="ms-2" />
                         <router-link
                             :to="{
@@ -77,10 +44,7 @@
             </form>
         </template>
         <div v-if="!isLoading && !isAllowedToEdit" class="container">
-            <h2>
-                Вы не можете редактировать данную программу, потому что она
-                принадлежит не вам.
-            </h2>
+            <h2>Вы не можете редактировать данную программу, потому что она принадлежит не вам.</h2>
             <router-link :to="{ name: 'Home' }" class="btn btn-outline-primary"
                 ><i class="bi-house"></i>&nbsp;На главную</router-link
             >
@@ -112,7 +76,7 @@ export default {
         },
         isAllowedToEdit() {
             if (this.program && this.currentUser) {
-                return this.currentUser.username == this.program.ownerUsername
+                return this.currentUser.username === this.program.ownerUsername
             } else {
                 return false
             }

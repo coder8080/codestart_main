@@ -54,7 +54,7 @@ const mutations = {
         console.log(question)
         for (let i = 0; i < state.data.questions.length; i++) {
             console.log(i)
-            if (state.data.questions[i]._id == question) {
+            if (state.data.questions[i]._id === question) {
                 state.data.questions[i].solutions.push(solution)
             }
         }
