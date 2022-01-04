@@ -24,5 +24,6 @@ module.exports = async (req, res, next) => {
         console.log(e)
         // Если что-то пошло не так, то запрос не должен быть выполнен
         res.status(401).json({ errors: ['ваш токен не подтверждён. войдите на сайт'] })
+        return
     }
 }

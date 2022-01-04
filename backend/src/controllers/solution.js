@@ -20,3 +20,27 @@ module.exports.createSolution = async (req, res) => {
     await solution.save()
     res.status(200).json({ solution })
 }
+
+module.exports.deleteSolution = async (req, res) => {
+    const user = req.body.user
+    console.log(user)
+    const id = req.body.id
+    let errors = []
+    if (!user) errors.push('сначала войдите на сайт')
+    if (!id) errors.push('укажите id удаляемого решения')
+    if (errors[0]) {
+        res.status(401).json({ errors })
+        return
+    }
+    const question = (await Solution.find({ _id: id }))[0]
+    if (!question) {
+        res.status(401).json({ errors: ['такого решения не существует'] })
+        return
+    }
+    if (question.ownerUsername !== user.username) {
+        res.status(401).json({ errors: ['это решение предложено не вами'] })
+        return
+    }
+    await Solution.deleteOne({ _id: id })
+    res.status(200).end()
+}

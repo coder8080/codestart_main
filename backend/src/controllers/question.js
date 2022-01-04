@@ -25,3 +25,27 @@ module.exports.createQuestion = async (req, res) => {
     await question.save()
     res.status(200).json({ question })
 }
+
+module.exports.deleteQuestion = async (req, res) => {
+    const user = req.body.user
+    console.log(user)
+    const id = req.body.id
+    let errors = []
+    if (!user) errors.push('сначала войдите на сайт')
+    if (!id) errors.push('укажите id удаляемого вопроса')
+    if (errors[0]) {
+        res.status(401).json({ errors })
+        return
+    }
+    const question = (await Question.find({ _id: id }))[0]
+    if (!question) {
+        res.status(401).json({ errors: ['такого вопроса не существует'] })
+        return
+    }
+    if (question.ownerUsername !== user.username) {
+        res.status(401).json({ errors: ['этот вопрос создан не вами'] })
+        return
+    }
+    await Question.deleteOne({ _id: id })
+    res.status(200).end()
+}
