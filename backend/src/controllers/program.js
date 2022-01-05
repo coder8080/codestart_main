@@ -31,7 +31,6 @@ module.exports.createProgram = async (req, res) => {
         if (errors[0]) {
             res.status(401).json({ errors })
         } else {
-            console.log(user.username)
             const program = new Program({
                 title: form.title,
                 description: form.description,

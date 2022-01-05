@@ -46,7 +46,6 @@ const actions = {
                 })
                 .catch((result) => {
                     context.commit(mutationTypes.getSubLessonFailure, result.response.data.errors)
-                    console.log('err', result)
                 })
         })
     },

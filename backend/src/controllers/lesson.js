@@ -102,7 +102,6 @@ module.exports.testMailer = async (req, res) => {
             res.status(200).json(response.data)
         })
         .catch((result) => {
-            console.log(result)
             res.status(500).json({
                 error: result,
             })

@@ -17,22 +17,11 @@ function validatePassword(password) {
     })
     // Конвертируем сообщения проверки в понятный текст
     for (let error of passwordValidationResult) {
-        if (error === 'min')
-            errors.push(
-                'пароль слишком короткий (минимальная длинна - 8 символов)'
-            )
-        else if (error === 'max')
-            errors.push(
-                'пароль слишком длинный (максимальная длинна - 100 символов)'
-            )
-        else if (error === 'lowercase')
-            errors.push('пароль должен содержать хотя бы одну строчную букву')
-        else if (error === 'uppercase')
-            errors.push('пароль должен содержать хотя бы одну заглавную букву')
-        else if (error === 'symbols')
-            errors.push(
-                'пароль должен содержать хотя бы один специальный символ'
-            )
+        if (error === 'min') errors.push('пароль слишком короткий (минимальная длинна - 8 символов)')
+        else if (error === 'max') errors.push('пароль слишком длинный (максимальная длинна - 100 символов)')
+        else if (error === 'lowercase') errors.push('пароль должен содержать хотя бы одну строчную букву')
+        else if (error === 'uppercase') errors.push('пароль должен содержать хотя бы одну заглавную букву')
+        else if (error === 'symbols') errors.push('пароль должен содержать хотя бы один специальный символ')
     }
     return errors
 }
@@ -62,9 +51,7 @@ module.exports.register = async (req, res) => {
         if (emailValidator.validate(credentials.email)) {
             // Если да, то проверяем, не занята ли она
             if (await User.count({ email: credentials.email })) {
-                errors.push(
-                    'пользователь с такой электронной почтой уже существует'
-                )
+                errors.push('пользователь с такой электронной почтой уже существует')
             }
         } else {
             errors.push('введите корректный адрес электронной почты')
@@ -180,15 +167,14 @@ module.exports.validateToken = async (req, res) => {
 
 module.exports.updateSettings = async (req, res) => {
     const user = req.body.user
+    console.log(user)
     if (user) {
         const settings = req.body
         let errors = []
         if (!settings.username) {
             errors.push('укажите имя пользователя')
         } else if (settings.username !== user.username) {
-            let isUsernameTaken = (
-                await User.find({ username: settings.username })
-            )[0]
+            let isUsernameTaken = (await User.find({ username: settings.username }))[0]
             if (isUsernameTaken) {
                 errors.push('это имя пользователя уже занято')
             }
@@ -199,9 +185,7 @@ module.exports.updateSettings = async (req, res) => {
             if (!emailValidator.validate(settings.email)) {
                 errors.push('введите корректный адрес электронной почты')
             } else if (settings.email !== user.email) {
-                const isEmailTaken = (
-                    await User.find({ email: settings.email })
-                )[0]
+                const isEmailTaken = (await User.find({ email: settings.email }))[0]
                 if (isEmailTaken) {
                     errors.push('уже существует аккаунт с этим адресом почты')
                 }
@@ -371,9 +355,7 @@ module.exports.getUserProfile = async (req, res) => {
     if (username) {
         user = (await User.find({ username }))[0]
         if (user) {
-            programs = (
-                await Program.find({ ownerEmail: user.email })
-            ).reverse()
+            programs = (await Program.find({ ownerEmail: user.email })).reverse()
             res.status(200).json({
                 user: {
                     username: user.username,

@@ -29,7 +29,6 @@ module.exports.createQuestion = async (req, res) => {
 
 module.exports.deleteQuestion = async (req, res) => {
     const user = req.body.user
-    console.log(user)
     const id = req.body.id
     let errors = []
     if (!user) errors.push('сначала войдите на сайт')

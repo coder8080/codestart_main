@@ -38,12 +38,12 @@
                             </button>
                         </div>
                     </div>
-                    <p v-if="!lesson.questions">Вопросов пока нет</p>
+                    <p v-if="!lesson.questions || lesson.questions == 0">Вопросов пока нет</p>
                     <div class="accordion" id="questions" v-if="lesson.questions">
                         <div class="accordion-item" v-for="question of lesson.questions" :key="question._id">
                             <h2 class="accordion-header" id="headingOne">
                                 <button
-                                    class="accordion-button collapsed bg-dark text-light"
+                                    class="accordion-button collapsed"
                                     type="button"
                                     data-bs-toggle="collapse"
                                     :data-bs-target="'#a' + question._id"
@@ -59,36 +59,23 @@
                                 aria-labelledby="headingOne"
                             >
                                 <div class="accordion-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <i class="bi-pencil-square"></i>&nbsp;{{ question.description }}
-                                        </div>
-                                        <div class="col text-end">
-                                            <button
-                                                class="btn btn-outline-danger ms-3"
-                                                v-on:click="onDeleteQuestion(question._id)"
-                                                v-if="currentUser.username == question.ownerUsername"
-                                            >
-                                                <i class="bi-trash"></i>
-                                            </button>
-                                        </div>
-                                    </div>
+                                    <p><i class="bi-pencil-square"></i>&nbsp;{{ question.description }}</p>
+                                    <button
+                                        class="btn btn-outline-danger"
+                                        v-on:click="onDeleteQuestion(question._id)"
+                                        v-if="currentUser.username == question.ownerUsername"
+                                    >
+                                        <i class="bi-trash"></i>&nbsp;Удалить
+                                    </button>
+                                    <button
+                                        class="btn btn-outline-info ms-2"
+                                        v-on:click="openCreateSolution(question._id)"
+                                    >
+                                        <i class="bi-plus-circle"></i>&nbsp;Ответить
+                                    </button>
                                 </div>
                                 <div class="container-fluid pb-2">
-                                    <hr />
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <h5><i class="bi-lightbulb"></i>&nbsp;Решения</h5>
-                                        </div>
-                                        <div class="col-6 text-end">
-                                            <button
-                                                class="btn btn-outline-info text-end"
-                                                v-on:click="openCreateSolution(question._id)"
-                                            >
-                                                <i class="bi-plus-circle"></i>&nbsp;Ответить
-                                            </button>
-                                        </div>
-                                    </div>
+                                    <h5><i class="bi-lightbulb"></i>&nbsp;Решения</h5>
                                     <div v-if="!question.solutions || question.solutions == 0">
                                         <hr />
                                         <p>Решений пока нет</p>
@@ -108,6 +95,13 @@
                                                 >:
                                                 {{ solution.text }}
                                             </p>
+                                            <button
+                                                v-if="currentUser.username == solution.ownerUsername"
+                                                class="btn btn-outline-danger"
+                                                v-on:click="onDeleteSolution(solution._id)"
+                                            >
+                                                <i class="bi-trash"></i>&nbsp;Удалить
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -175,6 +169,7 @@
                                 <textarea
                                     id="questionDescription"
                                     cols="30"
+                                    rows="5"
                                     class="form-control"
                                     v-model="question.description"
                                     required
@@ -373,6 +368,9 @@ export default {
 
         onDeleteQuestion(id) {
             this.$store.dispatch(questionActionTypes.deleteQuestion, id)
+        },
+        onDeleteSolution(id) {
+            this.$store.dispatch(solutionActionTypes.deleteSolution, id)
         },
     },
 }

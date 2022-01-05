@@ -104,10 +104,7 @@ const actions = {
                     resolve()
                 })
                 .catch((result) => {
-                    context.commit(
-                        mutationTypes.getProgramFailure,
-                        result.response.data.errors
-                    )
+                    context.commit(mutationTypes.getProgramFailure, result.response.data.errors)
                 })
         })
     },
@@ -121,10 +118,7 @@ const actions = {
                     resolve(id)
                 })
                 .catch((result) => {
-                    context.commit(
-                        mutationTypes.createProgramFailure,
-                        result.response.data.errors
-                    )
+                    context.commit(mutationTypes.createProgramFailure, result.response.data.errors)
                 })
         })
     },
@@ -138,10 +132,7 @@ const actions = {
                     resolve()
                 })
                 .catch((result) => {
-                    context.commit(
-                        mutationTypes.deleteProgramFailure,
-                        result.response.data.errors
-                    )
+                    context.commit(mutationTypes.deleteProgramFailure, result.response.data.errors)
                 })
         })
     },
@@ -151,15 +142,11 @@ const actions = {
             programApi
                 .editProgram(id, form)
                 .then((program) => {
-                    console.log(program)
                     context.commit(mutationTypes.editProgramSuccess, program)
                     resolve()
                 })
                 .catch((result) => {
-                    context.commit(
-                        mutationTypes.editProgramFailure,
-                        result.response.data.errors
-                    )
+                    context.commit(mutationTypes.editProgramFailure, result.response.data.errors)
                 })
         })
     },

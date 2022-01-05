@@ -75,7 +75,6 @@ const actions = {
                     resolve()
                 })
                 .catch((result) => {
-                    console.log(result)
                     context.commit(mutationTypes.deleteQuestionFailure, result.response.data.errors)
                 })
         })

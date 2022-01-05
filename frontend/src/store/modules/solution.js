@@ -60,7 +60,6 @@ const actions = {
                     resolve()
                 })
                 .catch((result) => {
-                    console.log(result)
                     context.commit(mutationTypes.createSolutionFailure, result.response.data.errors)
                 })
         })
@@ -71,7 +70,7 @@ const actions = {
             solutionApi
                 .deleteSolution(id)
                 .then(() => {
-                    context.commit(mutationTypes.deleteSolutionSuccess)
+                    context.commit(mutationTypes.deleteSolutionSuccess, id)
                     resolve()
                 })
                 .catch((result) => {

@@ -62,14 +62,25 @@ const mutations = {
     },
 
     [questionMutationTypes.deleteQuestionSuccess](state, id) {
-        let removeIndex = -1
         for (let i = 0; i < state.data.questions.length; i++) {
             if (state.data.questions[i]._id === id) {
-                removeIndex = i
+                state.data.questions.splice(i, 1)
+                break
             }
         }
-        if (removeIndex >= 0) {
-            state.data.questions.splice(removeIndex, 1)
+    },
+
+    [solutionMutationTypes.deleteSolutionSuccess](state, id) {
+        let found = false
+        for (let i = 0; i < state.data.questions.length; i++) {
+            if (found) break
+            for (let j = 0; i < state.data.questions[i].solutions.length; i++) {
+                if (state.data.questions[i].solutions[j]._id == id) {
+                    state.data.questions[i].solutions.splice(j, 1)
+                    found = true
+                    break
+                }
+            }
         }
     },
 }
