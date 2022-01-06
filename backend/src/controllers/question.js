@@ -50,3 +50,35 @@ module.exports.deleteQuestion = async (req, res) => {
     await Solution.deleteMany({ question: id })
     res.status(200).end()
 }
+
+module.exports.updateQuestion = async (req, res) => {
+    const user = req.body.user
+    const form = req.body.form
+    let errors = []
+    if (!user) errors.push('сначала войдите на сайт')
+    if (!form) {
+        errors.push('укажите данные для изменения')
+    } else if (!form.id) errors.push('укажите id изменяемого вопроса')
+    if (errors[0]) {
+        res.status(401).json({ errors })
+        return
+    }
+    const id = form.id
+    try {
+        const question = await Question.find({ _id: id })
+        if (!question) {
+            res.status(404).json({ errors: ['урока с таким id не существует'] })
+            return
+        }
+        if (question.ownerUsername === user.username) {
+            if (!form.title) form.title = question.title
+            if (!form.description) form.description = question.description
+            await Question.update({ _id: id }, { title: form.title, description: form.description })
+            res.status(200).end()
+        } else {
+            res.status(403).json({ errors: ['этот вопрос задан не вами'] })
+        }
+    } catch {
+        res.status(500).json({ errors: ['id некорректен'] })
+    }
+}

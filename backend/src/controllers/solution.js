@@ -43,3 +43,36 @@ module.exports.deleteSolution = async (req, res) => {
     await Solution.deleteOne({ _id: id })
     res.status(200).end()
 }
+
+module.exports.updateSolution = async (req, res) => {
+    const user = req.body.user
+    const form = req.body.form
+    let errors = []
+    if (!user) errors.push('сначала войдите на сайт')
+    if (!form) {
+        errors.push('укажите данные для изменения')
+    } else {
+        if (!form.id) errors.push('укажите id изменяемого решения')
+        if (!form.text) errors.push('укажите новый текст решения')
+    }
+    if (errors[0]) {
+        res.status(401).json({ errors })
+        return
+    }
+    const id = form.id
+    try {
+        const solution = await Solution.find({ _id: id })
+        if (!solution) {
+            res.status(404).json({ errors: ['решения с таким id не существует'] })
+            return
+        }
+        if (solution.ownerUsername === user.username) {
+            await Solution.update({ _id: id }, { text: form.text })
+            res.status(200).end()
+        } else {
+            res.status(403).json({ errors: ['это решение предложено не вами'] })
+        }
+    } catch {
+        res.status(500).json({ errors: ['id некорректен'] })
+    }
+}

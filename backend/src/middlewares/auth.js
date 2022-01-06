@@ -11,7 +11,6 @@ module.exports = async (req, res, next) => {
         const user = await User.findOne({
             email,
         })
-        console.log(user)
         if (user) {
             // Если он есть, то сохраняем его
             req.body.user = user
