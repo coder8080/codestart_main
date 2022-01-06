@@ -167,7 +167,6 @@ module.exports.validateToken = async (req, res) => {
 
 module.exports.updateSettings = async (req, res) => {
     const user = req.body.user
-    console.log(user)
     if (user) {
         const settings = req.body
         let errors = []
@@ -197,8 +196,9 @@ module.exports.updateSettings = async (req, res) => {
                 errors,
             })
         } else {
+            console.log(user.id)
             await User.update(
-                { id: user.id },
+                { _id: user.id },
                 {
                     username: settings.username,
                     email: settings.email,
