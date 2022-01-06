@@ -198,7 +198,7 @@ module.exports.updateSettings = async (req, res) => {
             })
         } else {
             await User.update(
-                { where: { id: user.id } },
+                { id: user.id },
                 {
                     username: settings.username,
                     email: settings.email,
