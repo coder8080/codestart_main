@@ -75,8 +75,31 @@ const mutations = {
         for (let i = 0; i < state.data.questions.length; i++) {
             if (found) break
             for (let j = 0; i < state.data.questions[i].solutions.length; i++) {
-                if (state.data.questions[i].solutions[j]._id == id) {
+                if (state.data.questions[i].solutions[j]._id === id) {
                     state.data.questions[i].solutions.splice(j, 1)
+                    found = true
+                    break
+                }
+            }
+        }
+    },
+
+    [questionMutationTypes.updateQuestionSuccess](state, question) {
+        for (let i = 0; i < state.data.questions.length; i++) {
+            if (state.data.questions[i]._id === question._id) {
+                state.data.questions[i] = question
+                break
+            }
+        }
+    },
+
+    [solutionMutationTypes.updateSolutionSuccess](state, solution) {
+        let found = false
+        for (let i = 0; i < state.data.questions.length; i++) {
+            if (found) break
+            for (let j = 0; j < state.data.questions[i].solutions.length; i++) {
+                if (state.data.questions[i].solutions[j]._id === solution._id) {
+                    state.data.questions[i].solutions[j] = solution
                     found = true
                     break
                 }

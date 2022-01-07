@@ -14,6 +14,10 @@ export const mutationTypes = {
     deleteQuestionStart: '[question] Delete Question Start',
     deleteQuestionSuccess: '[question] Delete Question Success',
     deleteQuestionFailure: '[question] Delete Question Failure',
+
+    updateQuestionStart: '[question] Update Question Start',
+    updateQuestionSuccess: '[question] Update Question Success',
+    updateQuestionFailure: '[question] Update Question Failure',
 }
 
 const mutations = {
@@ -42,11 +46,25 @@ const mutations = {
         state.isDeleting = false
         state.errors = errors
     },
+
+    [mutationTypes.updateQuestionStart](state) {
+        state.isSubmitting = true
+        state.errors = null
+    },
+    [mutationTypes.updateQuestionSuccess](state) {
+        state.isSubmitting = false
+        state.errors = null
+    },
+    [mutationTypes.updateQuestionFailure](state, errors) {
+        state.isSubmitting = false
+        state.errors = errors
+    },
 }
 
 export const actionTypes = {
     createQuestion: '[question] Create Question',
     deleteQuestion: '[question] Delete Question',
+    updateQuestion: '[question] Update Question',
 }
 
 const actions = {
@@ -76,6 +94,21 @@ const actions = {
                 })
                 .catch((result) => {
                     context.commit(mutationTypes.deleteQuestionFailure, result.response.data.errors)
+                })
+        })
+    },
+
+    [actionTypes.updateQuestion](context, form) {
+        return new Promise((resolve) => {
+            context.commit(mutationTypes.updateQuestionStart)
+            questionApi
+                .updateQuestion(form)
+                .then((question) => {
+                    context.commit(mutationTypes.updateQuestionSuccess, question)
+                    resolve()
+                })
+                .catch((result) => {
+                    context.commit(mutationTypes.updateQuestionFailure, result.response.data.errors)
                 })
         })
     },

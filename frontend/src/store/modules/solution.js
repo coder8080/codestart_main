@@ -14,6 +14,10 @@ export const mutationTypes = {
     deleteSolutionStart: '[solution] Delete Solution Start',
     deleteSolutionSuccess: '[solution] Delete Solution Success',
     deleteSolutionFailure: '[solution] Delete Solution Failure',
+
+    updateSolutionStart: '[solution] Update Solution Start',
+    updateSolutionSuccess: '[solution] Update Solution Success',
+    updateSolutionFailure: '[solution] Update Solution Failure',
 }
 
 const mutations = {
@@ -42,11 +46,25 @@ const mutations = {
         state.isDeleting = false
         state.errors = errors
     },
+
+    [mutationTypes.updateSolutionStart](state) {
+        state.isSubmitting = true
+        state.errors = null
+    },
+    [mutationTypes.updateSolutionSuccess](state) {
+        state.isSubmitting = false
+        state.errors = null
+    },
+    [mutationTypes.updateSolutionFailure](state, errors) {
+        state.isSubmitting = false
+        state.errors = errors
+    },
 }
 
 export const actionTypes = {
     createSolution: '[solution] Create Solution',
     deleteSolution: '[solution] Delete Solution',
+    updateSolution: '[solution] Update Solution',
 }
 
 const actions = {
@@ -75,6 +93,21 @@ const actions = {
                 })
                 .catch((result) => {
                     context.commit(mutationTypes.deleteSolutionFailure, result.response.data.errors)
+                })
+        })
+    },
+
+    [actionTypes.updateSolution](context, form) {
+        return new Promise((resolve) => {
+            context.commit(mutationTypes.updateSolutionStart)
+            solutionApi
+                .updateSolution(form)
+                .then((solution) => {
+                    context.commit(mutationTypes.updateSolutionSuccess, solution)
+                    resolve()
+                })
+                .catch((result) => {
+                    context.commit(mutationTypes.updateSolutionFailure, result.response.data.errors)
                 })
         })
     },

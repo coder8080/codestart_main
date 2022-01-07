@@ -8,4 +8,8 @@ function deleteSolution(id) {
     return axios.post('/solutions/delete', { id })
 }
 
-export default { createSolution, deleteSolution }
+function updateSolution(form) {
+    return axios.post('/solutions/update', { form }).then((response) => response.data.solution)
+}
+
+export default { createSolution, deleteSolution, updateSolution }
