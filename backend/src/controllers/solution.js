@@ -68,7 +68,8 @@ module.exports.updateSolution = async (req, res) => {
         }
         if (solution.ownerUsername === user.username) {
             await Solution.update({ _id: id }, { text: form.text })
-            res.status(200).end()
+            const updatedSolution = (await Solution.find({ _id: id }))[0]
+            res.status(200).json({ solution: updatedSolution })
         } else {
             res.status(403).json({ errors: ['это решение предложено не вами'] })
         }

@@ -74,7 +74,8 @@ module.exports.updateQuestion = async (req, res) => {
             if (!form.title) form.title = question.title
             if (!form.description) form.description = question.description
             await Question.update({ _id: id }, { title: form.title, description: form.description })
-            res.status(200).end()
+            const updatedQuestion = (await Question.find({ _id: id }))[0]
+            res.status(200).json({ question: updatedQuestion })
         } else {
             res.status(403).json({ errors: ['этот вопрос задан не вами'] })
         }
