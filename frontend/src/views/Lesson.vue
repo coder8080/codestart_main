@@ -90,7 +90,7 @@
                                         <p>Решений пока нет</p>
                                     </div>
                                     <div v-if="question.solutions">
-                                        <div v-for="solution of question.solutions" :key="solution._id">
+                                        <div v-for="solution of question.solutions" :key="solution._id" class="mb-3">
                                             <p>
                                                 <router-link
                                                     :to="{
@@ -106,7 +106,14 @@
                                             </p>
                                             <button
                                                 v-if="currentUser.username == solution.ownerUsername"
-                                                class="btn btn-outline-danger"
+                                                class="btn btn-outline-warning"
+                                                v-on:click="openUpdateSolution(solution._id)"
+                                            >
+                                                <i class="bi-pen"></i>&nbsp;Изменить
+                                            </button>
+                                            <button
+                                                v-if="currentUser.username == solution.ownerUsername"
+                                                class="btn btn-outline-danger ms-2"
                                                 v-on:click="onDeleteSolution(solution._id)"
                                             >
                                                 <i class="bi-trash"></i>&nbsp;Удалить
@@ -218,9 +225,7 @@
                         </div>
                         <app-errors v-if="solutionErrors" :errors="solutionErrors" />
                         <div class="modal-footer">
-                            <button class="btn btn-success" type="submit">
-                                <i class="bi-check"></i>&nbsp;Ответить
-                            </button>
+                            <button class="btn btn-success" type="submit"><i class="bi-check"></i>&nbsp;Готово</button>
                             <button type="button" class="btn btn-secondary" v-on:click="closeCreateSolution">
                                 <i class="bi-x-circle"></i>&nbsp;Отмена
                             </button>
@@ -261,8 +266,10 @@ export default {
             },
             solution: '',
             openedQuestion: '',
-            isUpdating: false,
-            updatingId: null,
+            isUpdatingQuestion: false,
+            isUpdatingSolution: false,
+            updatingQuestionId: null,
+            updatingSolutionId: null,
         }
     },
     computed: {
@@ -311,7 +318,7 @@ export default {
             }
         },
         onCreateQuestion() {
-            if (!this.isUpdating) {
+            if (!this.isUpdatingQuestion) {
                 this.$store
                     .dispatch(questionActionTypes.createQuestion, {
                         lesson: this.lesson.number,
@@ -334,19 +341,35 @@ export default {
                         this.closeCreateQuestion()
                         this.question.title = ''
                         this.question.description = ''
+                        this.isUpdatingQuestion = false
+                        this.updatingQuestionId = null
                     })
             }
         },
         onCreateSolution() {
-            this.$store
-                .dispatch(solutionActionTypes.createSolution, {
-                    question: this.openedQuestion,
-                    text: this.solution,
-                })
-                .then(() => {
-                    this.closeCreateSolution()
-                    this.solution = ''
-                })
+            if (!this.isUpdatingSolution) {
+                this.$store
+                    .dispatch(solutionActionTypes.createSolution, {
+                        question: this.openedQuestion,
+                        text: this.solution,
+                    })
+                    .then(() => {
+                        this.closeCreateSolution()
+                        this.solution = ''
+                    })
+            } else {
+                this.$store
+                    .dispatch(solutionActionTypes.updateSolution, {
+                        id: this.updatingSolutionId,
+                        text: this.solution,
+                    })
+                    .then(() => {
+                        this.closeCreateSolution()
+                        this.solution = ''
+                        this.isUpdatingSolution = false
+                        this.updatingSolutionId = null
+                    })
+            }
         },
 
         openLessonEnd() {
@@ -380,8 +403,23 @@ export default {
                     this.question.description = this.lesson.questions[i].description
                 }
             }
-            this.isUpdating = true
+            this.isUpdatingQuestion = true
             this.updatingId = id
+        },
+        openUpdateSolution(id) {
+            let modal = document.getElementById('createSolution')
+            modal.style.transform = 'translate(-50%, 0)'
+            let dimming = document.getElementById('dimming')
+            dimming.style.display = 'block'
+            for (let i = 0; i < this.lesson.questions.length; i++) {
+                for (let j = 0; j < this.lesson.questions[i].solutions.length; j++) {
+                    if (this.lesson.questions[i].solutions[j]._id == id) {
+                        this.solution = this.lesson.questions[i].solutions[j].text
+                    }
+                }
+            }
+            this.isUpdatingSolution = true
+            this.updatingSolutionId = id
         },
 
         closeLessonEnd() {
