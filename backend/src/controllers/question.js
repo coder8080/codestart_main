@@ -53,7 +53,9 @@ module.exports.deleteQuestion = async (req, res) => {
 
 module.exports.updateQuestion = async (req, res) => {
     const user = req.body.user
+    console.log(user)
     const form = req.body.form
+    console.log(form)
     let errors = []
     if (!user) errors.push('сначала войдите на сайт')
     if (!form) {
@@ -65,7 +67,7 @@ module.exports.updateQuestion = async (req, res) => {
     }
     const id = form.id
     try {
-        const question = await Question.find({ _id: id })
+        const question = (await Question.find({ _id: id }))[0]
         if (!question) {
             res.status(404).json({ errors: ['урока с таким id не существует'] })
             return
