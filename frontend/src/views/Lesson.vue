@@ -60,19 +60,28 @@
                             >
                                 <div class="accordion-body">
                                     <p><i class="bi-pencil-square"></i>&nbsp;{{ question.description }}</p>
-                                    <button
-                                        class="btn btn-outline-danger"
-                                        v-on:click="onDeleteQuestion(question._id)"
-                                        v-if="currentUser.username == question.ownerUsername"
-                                    >
-                                        <i class="bi-trash"></i>&nbsp;Удалить
-                                    </button>
-                                    <button
-                                        class="btn btn-outline-info ms-2"
-                                        v-on:click="openCreateSolution(question._id)"
-                                    >
-                                        <i class="bi-plus-circle"></i>&nbsp;Ответить
-                                    </button>
+                                    <div class="text-center">
+                                        <button
+                                            class="btn btn-outline-info"
+                                            v-on:click="openCreateSolution(question._id)"
+                                        >
+                                            <i class="bi-plus-circle"></i>&nbsp;Ответить
+                                        </button>
+                                        <button
+                                            class="btn btn-outline-warning ms-2"
+                                            v-on:click="openUpdateQuestion(question._id)"
+                                            v-if="currentUser.username == question.ownerUsername"
+                                        >
+                                            <i class="bi-pen"></i>&nbsp;Изменить
+                                        </button>
+                                        <button
+                                            class="btn btn-outline-danger ms-2"
+                                            v-on:click="onDeleteQuestion(question._id)"
+                                            v-if="currentUser.username == question.ownerUsername"
+                                        >
+                                            <i class="bi-trash"></i>&nbsp;Удалить
+                                        </button>
+                                    </div>
                                 </div>
                                 <div class="container-fluid pb-2">
                                     <h5><i class="bi-lightbulb"></i>&nbsp;Решения</h5>
@@ -180,9 +189,7 @@
                         </div>
                         <app-errors v-if="questionErrors" :errors="questionErrors" />
                         <div class="modal-footer">
-                            <button class="btn btn-success" type="submit">
-                                <i class="bi-check"></i>&nbsp;Задать вопрос
-                            </button>
+                            <button class="btn btn-success" type="submit"><i class="bi-check"></i>&nbsp;Готово</button>
                             <button type="button" class="btn btn-secondary" @click="closeCreateQuestion">
                                 <i class="bi-x-circle"></i>&nbsp;Отмена
                             </button>
@@ -254,6 +261,8 @@ export default {
             },
             solution: '',
             openedQuestion: '',
+            isUpdating: false,
+            updatingId: null,
         }
     },
     computed: {
@@ -302,17 +311,31 @@ export default {
             }
         },
         onCreateQuestion() {
-            this.$store
-                .dispatch(questionActionTypes.createQuestion, {
-                    lesson: this.lesson.number,
-                    title: this.question.title,
-                    description: this.question.description,
-                })
-                .then(() => {
-                    this.closeCreateQuestion()
-                    this.question.title = ''
-                    this.question.description = ''
-                })
+            if (!this.isUpdating) {
+                this.$store
+                    .dispatch(questionActionTypes.createQuestion, {
+                        lesson: this.lesson.number,
+                        title: this.question.title,
+                        description: this.question.description,
+                    })
+                    .then(() => {
+                        this.closeCreateQuestion()
+                        this.question.title = ''
+                        this.question.description = ''
+                    })
+            } else {
+                this.$store
+                    .dispatch(questionActionTypes.updateQuestion, {
+                        id: this.updatingId,
+                        title: this.question.title,
+                        description: this.question.description,
+                    })
+                    .then(() => {
+                        this.closeCreateQuestion()
+                        this.question.title = ''
+                        this.question.description = ''
+                    })
+            }
         },
         onCreateSolution() {
             this.$store
@@ -345,6 +368,20 @@ export default {
             dimming.style.display = 'block'
             console.log(id)
             this.openedQuestion = id
+        },
+        openUpdateQuestion(id) {
+            let modal = document.getElementById('createQuestion')
+            modal.style.transform = 'translate(-50%, 0)'
+            let dimming = document.getElementById('dimming')
+            dimming.style.display = 'block'
+            for (let i = 0; i < this.lesson.questions.length; i++) {
+                if (this.lesson.questions[i]._id == id) {
+                    this.question.title = this.lesson.questions[i].title
+                    this.question.description = this.lesson.questions[i].description
+                }
+            }
+            this.isUpdating = true
+            this.updatingId = id
         },
 
         closeLessonEnd() {
