@@ -97,7 +97,7 @@ const mutations = {
         let found = false
         for (let i = 0; i < state.data.questions.length; i++) {
             if (found) break
-            for (let j = 0; j < state.data.questions[i].solutions.length; i++) {
+            for (let j = 0; j < state.data.questions[i].solutions.length; j++) {
                 if (state.data.questions[i].solutions[j]._id === solution._id) {
                     state.data.questions[i].solutions[j] = solution
                     found = true
