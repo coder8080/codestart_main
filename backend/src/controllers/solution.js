@@ -61,7 +61,7 @@ module.exports.updateSolution = async (req, res) => {
     }
     const id = form.id
     try {
-        const solution = await Solution.find({ _id: id })
+        const solution = (await Solution.find({ _id: id }))[0]
         if (!solution) {
             res.status(404).json({ errors: ['решения с таким id не существует'] })
             return
