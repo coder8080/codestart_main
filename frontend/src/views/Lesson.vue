@@ -104,6 +104,7 @@
                                                 >:
                                                 {{ solution.text }}
                                             </p>
+                                            <i class="text-success bi-check-lg me-2" v-if="solution.isCorrect"></i>
                                             <button
                                                 v-if="currentUser.username == solution.ownerUsername"
                                                 class="btn btn-outline-warning"
@@ -117,6 +118,16 @@
                                                 v-on:click="onDeleteSolution(solution._id)"
                                             >
                                                 <i class="bi-trash"></i>&nbsp;Удалить
+                                            </button>
+                                            <button
+                                                class="btn btn-outline-info ms-2"
+                                                v-if="
+                                                    currentUser.username == question.ownerUsername &&
+                                                    !solution.isCorrect
+                                                "
+                                                v-on:click="onMarkAsCorrect(solution._id)"
+                                            >
+                                                <i class="bi-check-circle"></i>&nbsp;Помогло
                                             </button>
                                         </div>
                                     </div>
@@ -370,6 +381,9 @@ export default {
                         this.updatingSolutionId = null
                     })
             }
+        },
+        onMarkAsCorrect(id) {
+            this.$store.dispatch(solutionActionTypes.markAsCorrect, id)
         },
 
         openLessonEnd() {

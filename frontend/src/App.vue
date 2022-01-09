@@ -39,15 +39,17 @@ export default {
             this.updateTitle()
         },
         currentUser() {
-            // Если зарегистрированный пользователь заходит на сайт, то сразу показываем ему страницу со списком уроков
-            if (this.currentUser.username && this.$route.name === 'Home') {
-                this.$router.push({ name: 'Lessons' })
-            }
-            if (this.currentUser.theme === 'dark') {
-                document.head.appendChild(style)
-            } else {
-                if (document.head.contains(style)) {
-                    document.head.removeChild(style)
+            if (this.currentUser) {
+                // Если зарегистрированный пользователь заходит на сайт, то сразу показываем ему страницу со списком уроков
+                if (this.currentUser.username && this.$route.name === 'Home') {
+                    this.$router.push({ name: 'Lessons' })
+                }
+                if (this.currentUser.theme === 'dark') {
+                    document.head.appendChild(style)
+                } else {
+                    if (document.head.contains(style)) {
+                        document.head.removeChild(style)
+                    }
                 }
             }
         },

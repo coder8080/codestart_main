@@ -12,4 +12,8 @@ function updateSolution(form) {
     return axios.post('/solutions/update', { form }).then((response) => response.data.solution)
 }
 
-export default { createSolution, deleteSolution, updateSolution }
+function markAsCorrect(id) {
+    return axios.post('/solutions/mark-as-correct', { id })
+}
+
+export default { createSolution, deleteSolution, updateSolution, markAsCorrect }

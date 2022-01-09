@@ -106,6 +106,20 @@ const mutations = {
             }
         }
     },
+
+    [solutionMutationTypes.markAsCorrectSuccess](state, id) {
+        let found = false
+        for (let i = 0; i < state.data.questions.length; i++) {
+            if (found) break
+            for (let j = 0; i < state.data.questions[i].solutions.length; j++) {
+                if (state.data.questions[i].solutions[j]._id === id) {
+                    state.data.questions[i].solutions[j].isCorrect = true
+                    found = true
+                    break
+                }
+            }
+        }
+    },
 }
 export const actionTypes = {
     getLesson: '[lesson] Get Lesson',

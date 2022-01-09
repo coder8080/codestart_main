@@ -3,6 +3,7 @@ import solutionApi from '@/api/solution'
 const state = {
     isSubmitting: false,
     isDeleting: false,
+    isMarking: false,
     errors: null,
 }
 
@@ -18,6 +19,10 @@ export const mutationTypes = {
     updateSolutionStart: '[solution] Update Solution Start',
     updateSolutionSuccess: '[solution] Update Solution Success',
     updateSolutionFailure: '[solution] Update Solution Failure',
+
+    markAsCorrectStart: '[solution] Mark As Correct Start',
+    markAsCorrectSuccess: '[solution] Mark As Correct Success',
+    markAsCorrectFailure: '[solution] Mark As Correct Failure',
 }
 
 const mutations = {
@@ -59,12 +64,24 @@ const mutations = {
         state.isSubmitting = false
         state.errors = errors
     },
+
+    [mutationTypes.markAsCorrectStart](state) {
+        state.isMarking = true
+    },
+    [mutationTypes.markAsCorrectSuccess](state) {
+        state.isMarking = false
+    },
+    [mutationTypes.markAsCorrectFailure](state, errors) {
+        state.isMarking = false
+        state.errors = errors
+    },
 }
 
 export const actionTypes = {
     createSolution: '[solution] Create Solution',
     deleteSolution: '[solution] Delete Solution',
     updateSolution: '[solution] Update Solution',
+    markAsCorrect: '[solution] Mark As Correct',
 }
 
 const actions = {
@@ -96,7 +113,6 @@ const actions = {
                 })
         })
     },
-
     [actionTypes.updateSolution](context, form) {
         return new Promise((resolve) => {
             context.commit(mutationTypes.updateSolutionStart)
@@ -109,6 +125,20 @@ const actions = {
                 .catch((result) => {
                     console.log(result)
                     context.commit(mutationTypes.updateSolutionFailure, result.response.data.errors)
+                })
+        })
+    },
+    [actionTypes.markAsCorrect](context, id) {
+        return new Promise((resolve) => {
+            context.commit(mutationTypes.markAsCorrectStart)
+            solutionApi
+                .markAsCorrect(id)
+                .then(() => {
+                    context.commit(mutationTypes.markAsCorrectSuccess, id)
+                    resolve()
+                })
+                .catch((result) => {
+                    context.commit(mutationTypes.markAsCorrectFailure, result.response.data.errors)
                 })
         })
     },

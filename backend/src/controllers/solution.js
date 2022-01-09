@@ -1,4 +1,5 @@
 const Solution = require('../models/solution')
+const Question = require('../models/question')
 
 module.exports.createSolution = async (req, res) => {
     const user = req.body.user
@@ -76,4 +77,29 @@ module.exports.updateSolution = async (req, res) => {
     } catch {
         res.status(500).json({ errors: ['id некорректен'] })
     }
+}
+
+module.exports.markAsCorrect = async (req, res) => {
+    const user = req.body.user
+    const id = req.body.id
+    console.log(id)
+    let errors = []
+    if (!user) errors.push('Сначала войдите на сайт')
+    if (!id) errors.push('Укажите id решения')
+    if (errors[0]) {
+        res.status(401).json({ errors })
+        return
+    }
+    const solution = (await Solution.find({ _id: id }))[0]
+    if (!solution) {
+        res.status(404).json({ errors: ['нет решения с таким id'] })
+        return
+    }
+    const question = (await Question.find({ _id: solution.question }))[0]
+    if (question.ownerUsername !== user.username) {
+        res.status(403).json({ errors: ['этот вопрос принадлежит не вам'] })
+        return
+    }
+    await Solution.update({ _id: id }, { isCorrect: true })
+    res.status(200).end()
 }
