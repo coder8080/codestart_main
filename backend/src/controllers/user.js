@@ -206,7 +206,7 @@ module.exports.updateSettings = async (req, res) => {
                     theme: settings.theme,
                 }
             )
-            let updatedUser = (await User.find({ id: user.id }))[0]
+            let updatedUser = (await User.find({ _id: user.id }))[0]
             res.status(200).json({
                 user: {
                     email: updatedUser.email,
