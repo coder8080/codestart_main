@@ -7,14 +7,14 @@ module.exports.lessons = [
         description: `Я рад видеть вас на платформе CodeStart. В этом уроке я расскажу вам о курсе и о том, что вы
          сможете сделать в его конце.`,
         number: 1,
-        video: 'intro.mp4',
+        video: 'intro.mov',
     },
     {
         title: 'Урок первый. Язык html.',
         description: `Всем привет! В этом уроке мы установим редактор кода (программу, в которой программисты пишут
          код) и познакомимся с языком html.`,
         number: 2,
-        video: 'html.mp4',
+        video: 'html.mov',
     },
     {
         title: 'Урок второй. Язык css.',
