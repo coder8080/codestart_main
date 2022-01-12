@@ -355,7 +355,7 @@ module.exports.getUserProfile = async (req, res) => {
     if (username) {
         user = (await User.find({ username }))[0]
         if (user) {
-            programs = (await Program.find({ ownerEmail: user.email })).reverse()
+            programs = (await Program.find({ ownerUsername: user.username })).reverse()
             res.status(200).json({
                 user: {
                     username: user.username,
