@@ -6,7 +6,6 @@ module.exports = async (req, res, next) => {
     try {
         // Получаем id пользователя
         const email = jwt.verify(req.headers.authorization, process.env.SECRET).email
-        console.log(email)
         // Получаем пользователя
         const user = await User.findOne({
             email,

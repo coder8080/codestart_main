@@ -400,7 +400,6 @@ export default {
             modal.style.transform = 'translate(-50%, 0)'
             let dimming = document.getElementById('dimming')
             dimming.style.display = 'block'
-            console.log(id)
             this.openedQuestion = id
         },
         openUpdateQuestion(id) {

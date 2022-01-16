@@ -123,7 +123,6 @@ const actions = {
                     resolve()
                 })
                 .catch((result) => {
-                    console.log(result)
                     context.commit(mutationTypes.updateSolutionFailure, result.response.data.errors)
                 })
         })

@@ -27,7 +27,6 @@ module.exports.getLesson = async (req, res) => {
                     solutions,
                 }
             }
-            console.log
             res.status(200).json({
                 lesson: {
                     number: lesson.number,

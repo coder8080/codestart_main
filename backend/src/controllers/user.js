@@ -196,7 +196,6 @@ module.exports.updateSettings = async (req, res) => {
                 errors,
             })
         } else {
-            console.log(user.id)
             await User.update(
                 { _id: user.id },
                 {

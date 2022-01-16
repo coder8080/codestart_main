@@ -53,9 +53,7 @@ module.exports.deleteQuestion = async (req, res) => {
 
 module.exports.updateQuestion = async (req, res) => {
     const user = req.body.user
-    console.log(user)
     const form = req.body.form
-    console.log(form)
     let errors = []
     if (!user) errors.push('сначала войдите на сайт')
     if (!form) {
