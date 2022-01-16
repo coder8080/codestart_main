@@ -8,7 +8,7 @@
             <app-errors v-if="errors" :errors="errors" />
             <div class="mb-3 mt-3">
                 <label for="email-input"><i class="bi-envelope"></i>&nbsp;Электронная почта</label>
-                <input type="email" class="form-control" id="email-input" v-model="email" required />
+                <input type="email" class="form-control" id="email-input" v-model="email" autocomplete="off" required />
             </div>
             <div class="mb-3">
                 <label for="password-input"><i class="bi-key"></i>&nbsp;Пароль</label>
