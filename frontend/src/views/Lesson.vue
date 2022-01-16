@@ -14,11 +14,7 @@
                     </h4>
                     <h2 class="mt-2"><i class="bi-plus-circle"></i>&nbsp;Дополнения к уроку:</h2>
                     <div class="row mb-3" v-if="lesson">
-                        <div
-                            class="col col-sm-12 col-md-4 col-lg-3"
-                            v-for="sublesson of lesson.subLessons"
-                            :key="sublesson.id"
-                        >
+                        <div class="col col-12 col-md-6" v-for="sublesson of lesson.subLessons" :key="sublesson.id">
                             <app-sub-lesson :sublesson="sublesson" />
                         </div>
                     </div>
@@ -305,11 +301,12 @@ export default {
     },
     mounted() {
         this.$store.dispatch(actionTypes.getLesson, this.number)
+        this.closeLessonEnd()
     },
     watch: {
         number() {
             this.$store.dispatch(actionTypes.getLesson, this.number)
-            this.closeModal()
+            this.closeLessonEnd()
         },
     },
     methods: {
