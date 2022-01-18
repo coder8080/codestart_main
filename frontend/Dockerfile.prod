@@ -6,3 +6,5 @@ RUN npm install
 COPY . .
 RUN npm run build
 RUN npm install serve -g
+RUN addgroup -S app && adduser -S app -G app
+USER app
