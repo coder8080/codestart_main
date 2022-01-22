@@ -7,14 +7,14 @@ module.exports.lessons = [
         description: `Я рад видеть вас на платформе CodeStart. В этом уроке я расскажу вам о курсе и о том, что вы
          сможете сделать в его конце.`,
         number: 1,
-        video: 'intro.mov',
+        video: 'intro.mp4',
     },
     {
         title: 'Урок первый. Язык html.',
         description: `Всем привет! В этом уроке мы установим редактор кода (программу, в которой программисты пишут
          код) и познакомимся с языком html.`,
         number: 2,
-        video: 'html.mov',
+        video: 'html.mp4',
     },
     {
         title: 'Урок второй. Язык css.',
@@ -38,15 +38,5 @@ module.exports.lessons = [
         video: 'final.mp4',
     },
 ]
-module.exports.subLessons = [
-    {
-        title: 'Дополнение 1. Настройка редактора',
-        description:
-            'В этом дополнении я хочу рассказать про настройку редактораа более детально. Например, зачем нужнен ' +
-            'prettier и как его включить',
-        number: 1,
-        parent: 2,
-        video: '2-1.mp4',
-    },
-]
+module.exports.subLessons = []
 module.exports.domain = process.env.DOMAIN
