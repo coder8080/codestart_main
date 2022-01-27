@@ -405,5 +405,5 @@ module.exports.getFeed = async (req, res) => {
         programs.push(...(await Program.find({ lang })))
     }
     programs = randomMix(programs.slice(10 * pagination, 10 * (pagination + 1) + 1))
-    res.status(200).json(programs)
+    res.status(200).json({ programs })
 }

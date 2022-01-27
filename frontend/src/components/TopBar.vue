@@ -10,9 +10,7 @@
             }"
         >
             <div class="container">
-                <router-link :to="{ name: 'Home' }" class="navbar-brand"
-                    >Code&lt;/&gt;start</router-link
-                >
+                <router-link :to="{ name: 'Home' }" class="navbar-brand">Code&lt;/&gt;start</router-link>
                 <button
                     class="navbar-toggler"
                     type="button"
@@ -27,33 +25,20 @@
                 <div class="collapse navbar-collapse" id="navbarContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <router-link
-                                class="nav-link"
-                                :to="{ name: 'Home' }"
-                                active-class="active"
-                                exact
-                            >
+                            <router-link class="nav-link" :to="{ name: 'Home' }" active-class="active" exact>
                                 <i class="bi-house"></i>
                                 Главная
                             </router-link>
                         </li>
                         <template v-if="isAnonymous">
                             <li class="nav-item">
-                                <router-link
-                                    class="nav-link"
-                                    :to="{ name: 'Login' }"
-                                    active-class="active"
-                                >
+                                <router-link class="nav-link" :to="{ name: 'Login' }" active-class="active">
                                     <i class="bi-door-open"></i>
                                     Войти
                                 </router-link>
                             </li>
                             <li class="nav-item">
-                                <router-link
-                                    class="nav-link"
-                                    :to="{ name: 'Register' }"
-                                    active-class="active"
-                                >
+                                <router-link class="nav-link" :to="{ name: 'Register' }" active-class="active">
                                     <i class="bi-door-open-fill"></i>
                                     Зарегистрироваться
                                 </router-link>
@@ -61,11 +46,7 @@
                         </template>
                         <template v-if="isLoggedIn">
                             <li class="nav-item">
-                                <router-link
-                                    class="nav-link"
-                                    :to="{ name: 'Lessons' }"
-                                    active-class="active"
-                                >
+                                <router-link class="nav-link" :to="{ name: 'Lessons' }" active-class="active">
                                     <i class="bi-film"></i>
                                     Уроки
                                 </router-link>
@@ -80,16 +61,19 @@
                                         },
                                     }"
                                     active-class="active"
-                                    ><i class="bi-file-person"></i
-                                    >&nbsp;Профиль</router-link
+                                    ><i class="bi-file-person"></i>&nbsp;Профиль</router-link
                                 >
                             </li>
                             <li class="nav-item">
                                 <router-link
                                     class="nav-link"
-                                    :to="{ name: 'Settings' }"
+                                    :to="{ name: 'Feed', params: { pagination: 0 } }"
                                     active-class="active"
+                                    ><i class="bi-star"></i>&nbsp;Лента</router-link
                                 >
+                            </li>
+                            <li class="nav-item">
+                                <router-link class="nav-link" :to="{ name: 'Settings' }" active-class="active">
                                     <i class="bi-gear"></i>
                                     Настройки
                                 </router-link>
@@ -109,17 +93,9 @@
                 </div>
             </div>
         </nav>
-        <nav
-            class="
-                navbar navbar-expand-lg navbar-light
-                bg-light
-                transparent-navbar
-            "
-        >
+        <nav class="navbar navbar-expand-lg navbar-light bg-light transparent-navbar">
             <div class="container">
-                <router-link :to="{ name: 'Home' }" class="navbar-brand"
-                    >Code&lt;/&gt;start</router-link
-                >
+                <router-link :to="{ name: 'Home' }" class="navbar-brand">Code&lt;/&gt;start</router-link>
                 <button
                     class="navbar-toggler"
                     type="button"

@@ -10,6 +10,7 @@ import program from '@/store/modules/program'
 import profile from '@/store/modules/profile'
 import question from '@/store/modules/question'
 import solution from '@/store/modules/solution'
+import feed from '@/store/modules/feed'
 
 Vue.use(Vuex)
 
@@ -28,5 +29,6 @@ export default new Vuex.Store({
         profile,
         question,
         solution,
+        feed,
     },
 })

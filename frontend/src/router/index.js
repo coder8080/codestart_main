@@ -94,6 +94,7 @@ const routes = [
         name: 'Feed',
         component: Feed,
     },
+    { path: '/feed', redirect: '/feed/0' },
 ]
 
 const router = new VueRouter({
