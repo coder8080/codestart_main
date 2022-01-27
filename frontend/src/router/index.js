@@ -14,6 +14,7 @@ import ViewProgram from '@/views/ViewProgram'
 import CreateProgram from '@/views/CreateProgram'
 import UserProfile from '@/views/UserProfile'
 import EditProgram from '@/views/EditProgram'
+import Feed from '@/views/Feed'
 
 Vue.use(VueRouter)
 
@@ -88,11 +89,15 @@ const routes = [
         name: 'EditProgram',
         component: EditProgram,
     },
+    {
+        path: '/feed/:pagination',
+        name: 'Feed',
+        component: Feed,
+    },
 ]
 
 const router = new VueRouter({
     routes,
-    mode: 'history',
 })
 
 export default router
