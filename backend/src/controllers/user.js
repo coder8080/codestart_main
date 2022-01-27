@@ -9,6 +9,7 @@ const mailerApi = require('../api/mailer')
 const { domain } = require('../config')
 const sha256 = require('sha256')
 const keyGenerator = require('../helpers/keyGenerator')
+const randomMix = require('../helpers/randomMix')
 
 function validatePassword(password) {
     let errors = []
@@ -373,4 +374,36 @@ module.exports.getUserProfile = async (req, res) => {
     } else {
         res.status(401).json({ errors: ['введите email'] })
     }
+}
+
+module.exports.getFeed = async (req, res) => {
+    let pagination = req.params.pagination
+    const user = req.body.user
+    languages = user.languages
+    let errors = []
+    if (!user) errors.push('сначала войдите на сайт')
+    if (!pagination) {
+        errors.push('укажите номер страницы (начинается с 0)')
+    } else {
+        pagination = Number(pagination)
+        if (typeof pagination !== 'number') errors.push('номер страницы должен быть целым числом (нумерация с 0)')
+        if (Math.floor(pagination) !== pagination) errors.push('номер страницы должен быть целым числом')
+    }
+    if (!languages) {
+        errors.push('нет языков для формирования ленты')
+    } else {
+        if (!languages[0]) errors.push('нет первого языка')
+        if (typeof languages[0] !== 'string') errors.push('каждый язык должен быть строкой')
+    }
+    if (errors[0]) {
+        res.status(401).json({ errors })
+        return
+    }
+    console.log(languages)
+    programs = []
+    for (lang of languages) {
+        programs.push(...(await Program.find({ lang })))
+    }
+    programs = randomMix(programs.slice(10 * pagination, 10 * (pagination + 1) + 1))
+    res.status(200).json(programs)
 }

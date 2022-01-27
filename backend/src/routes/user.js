@@ -12,5 +12,6 @@ router.post('/generate-key', userController.generateKey)
 router.get('/verify-key', userController.verifyKey)
 router.post('/reset-password', userController.resetPassword)
 router.get('/get-user-profile/:username', userController.getUserProfile)
+router.get('/get-feed/:pagination', auth, userController.getFeed)
 
 module.exports = router

@@ -1,4 +1,5 @@
 const Program = require('../models/program')
+const User = require('../models/user')
 
 module.exports.getProgram = async (req, res) => {
     id = req.params.id
@@ -39,6 +40,10 @@ module.exports.createProgram = async (req, res) => {
                 code: form.code,
             })
             await program.save()
+            if (!user.languages.includes(form.lang)) {
+                user.languages.push(form.lang)
+                await user.save()
+            }
             res.status(200).json({ id: program.id })
         }
     } else {
