@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
     bio: { type: String, default: '' },
     level: { type: Number, default: 0 },
     theme: { type: String, default: 'light' },
-    languages: [String],
+    languages: { type: [String], default: ['html'] },
 })
 const User = mongoose.model('User', userSchema)
 module.exports = User
