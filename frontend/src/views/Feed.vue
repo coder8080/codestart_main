@@ -3,12 +3,10 @@
         <h1 class="text-center">Ваша лента</h1>
         <template v-if="isLoggedIn">
             <div class="row mb-2" v-if="programs && programs[0]">
-                <div class="col col-12 col-md-3 col-lg-4" v-for="program in programs" :key="program._id">
+                <div class="col col-12 col-md-6 col-lg-4" v-for="program in programs" :key="program._id">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">
-                                {{ program.title }}
-                            </h5>
+                            <h5 class="card-title">"{{ program.title }}" by {{ program.ownerUsername }}</h5>
                             <p class="card-subtitle text-muted">
                                 {{ program.lang }}
                             </p>
