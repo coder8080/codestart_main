@@ -1,20 +1,21 @@
 <template>
     <div class="container">
-        <h1 class="text-center">Ваши чаты</h1>
+        <h1 class="text-center"><i class="bi-chat-right-dots"></i>&nbsp;Ваши чаты</h1>
         <ul class="list-group" v-if="chats && chats[0]">
             <li class="list-group-item" v-for="chat in chats" :key="chat._id">
                 <div class="ms-2 me-auto">
                     <div class="fw-bold">
+                        <i class="bi-file-person"></i>&nbsp;
                         {{ chat.username }}
                     </div>
-                    {{ chat.lastMessage.text }} ({{ chat.lastMessage.time }})
+                    <i class="bi-chat-left"></i>&nbsp;{{ chat.lastMessage.text }} ({{ chat.lastMessage.time }})
                     <br />
                     <div class="text-end">
                         <router-link
                             :to="{ name: 'Chat', params: { username: chat.username } }"
                             class="btn btn-outline-success mt-2"
                         >
-                            Перейти в чат
+                            Перейти в чат&nbsp;<i class="bi-arrow-right-square"></i>
                         </router-link>
                     </div>
                 </div>

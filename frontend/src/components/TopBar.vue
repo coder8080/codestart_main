@@ -73,6 +73,11 @@
                                 >
                             </li>
                             <li class="nav-item">
+                                <router-link :to="{ name: 'Chats' }" class="nav-link" active-class="active"
+                                    ><i class="bi-chat"></i>&nbsp;Чаты</router-link
+                                >
+                            </li>
+                            <li class="nav-item">
                                 <router-link class="nav-link" :to="{ name: 'Settings' }" active-class="active">
                                     <i class="bi-gear"></i>
                                     Настройки
