@@ -1,8 +1,8 @@
 <template>
     <div class="container">
         <h1 class="text-center">Ваша лента</h1>
-        <template v-if="isLoggedIn">
-            <div class="row mb-2" v-if="programs && programs[0]">
+        <template v-if="isLoggedIn && programs && programs[0]">
+            <div class="row mb-2">
                 <div class="col col-12 col-md-6 col-lg-4" v-for="program in programs" :key="program._id">
                     <div class="card">
                         <div class="card-body">

@@ -11,6 +11,8 @@ import profile from '@/store/modules/profile'
 import question from '@/store/modules/question'
 import solution from '@/store/modules/solution'
 import feed from '@/store/modules/feed'
+import msg from '@/store/modules/msg'
+import chat from '@/store/modules/chat'
 
 Vue.use(Vuex)
 
@@ -30,5 +32,7 @@ export default new Vuex.Store({
         question,
         solution,
         feed,
+        msg,
+        chat,
     },
 })

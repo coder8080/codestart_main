@@ -15,6 +15,8 @@ import CreateProgram from '@/views/CreateProgram'
 import UserProfile from '@/views/UserProfile'
 import EditProgram from '@/views/EditProgram'
 import Feed from '@/views/Feed'
+import Chats from '@/views/Chats'
+import Chat from '@/views/Chat'
 
 Vue.use(VueRouter)
 
@@ -93,6 +95,16 @@ const routes = [
         path: '/feed/:pagination',
         name: 'Feed',
         component: Feed,
+    },
+    {
+        path: '/chats',
+        name: 'Chats',
+        component: Chats,
+    },
+    {
+        path: '/chat/:username',
+        name: 'Chat',
+        component: Chat,
     },
     { path: '/feed', redirect: '/feed/0' },
 ]

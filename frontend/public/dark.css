@@ -9,6 +9,7 @@ body {
 
 li.list-group-item {
     background-color: #262a36 !important;
+    color: whitesmoke;
 }
 
 li.list-group-item.active {
