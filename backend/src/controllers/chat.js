@@ -68,8 +68,6 @@ module.exports.getChat = async (req, res) => {
         res.status(401).json({ errors: ['у вас нет чата с этим пользователем'] })
         return
     }
-    console.log(chat._id)
     const messages = await Msg.find({ chatId: chat._id })
-    console.log(messages)
     res.status(200).json({ chat: { _id: chat._id, usersUsernames: chat.usersUsernames, messages } })
 }

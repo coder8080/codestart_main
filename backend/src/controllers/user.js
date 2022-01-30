@@ -399,7 +399,6 @@ module.exports.getFeed = async (req, res) => {
         res.status(401).json({ errors })
         return
     }
-    console.log(languages)
     programs = []
     for (lang of languages) {
         programs.push(...(await Program.find({ lang })))
