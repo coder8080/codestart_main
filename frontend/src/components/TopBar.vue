@@ -8,6 +8,7 @@
                 'navbar-dark': darkTheme,
                 'bg-dark': darkTheme,
             }"
+            id="navbar"
         >
             <div class="container">
                 <router-link :to="{ name: 'Home' }" class="navbar-brand">Code&lt;/&gt;start</router-link>
