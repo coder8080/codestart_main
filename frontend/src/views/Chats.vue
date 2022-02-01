@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <h1 class="text-center"><i class="bi-chat-right-dots"></i>&nbsp;Ваши чаты</h1>
-        <ul class="list-group" v-if="chats && chats[0]">
+        <ul class="list-group" v-if="chats && chats[0] && isLoggedIn">
             <li class="list-group-item" v-for="chat in chats" :key="chat._id">
                 <div class="ms-2 me-auto">
                     <div class="fw-bold">
@@ -21,7 +21,7 @@
                 </div>
             </li>
         </ul>
-        <p v-if="chats && !chats[0]">
+        <p v-if="chats && !chats[0] && !isLoading">
             У вас нет открытых чатов. Чтобы начать общение, нажмите на кнопку "Создать чат" и введите ник пользователя,
             или нажмите на кнопку "написать" в чужом профиле.
         </p>
@@ -44,6 +44,7 @@ export default {
         ...mapState({
             errors: (state) => state.chat.errros,
             isLoading: (state) => state.chat.isLoading,
+            isLoggedIn: (state) => state.auth.isLoggedIn,
             _chats: (state) => state.chat.chats,
             currentUser: (state) => state.auth.currentUser,
         }),

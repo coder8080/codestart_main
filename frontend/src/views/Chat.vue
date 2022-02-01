@@ -27,6 +27,12 @@
                     <div class="rounded-pill p-1 bg-dark bg-opacity-25 p-2">
                         <p class="h6 m-0 ms-1">
                             {{ message.text }}
+                            <i
+                                class="bi-trash text-danger"
+                                v-if="message.senderUsername == currentUser.username"
+                                style="cursor: pointer"
+                                v-on:click="deleteMsg(message._id)"
+                            ></i>
                         </p>
                         <div class="text-end">
                             <p class="text-muted m-0" style="font-size: 10px">
@@ -84,9 +90,14 @@ export default {
     },
     watch: {
         isLoggedIn() {
-            setTimeout(() => {
+            if (this.chat) {
                 this.scroll()
-            }, 100)
+            }
+        },
+        chat() {
+            if (this.isLoggedIn) {
+                this.scroll()
+            }
         },
     },
     methods: {
@@ -96,8 +107,13 @@ export default {
             })
         },
         scroll() {
-            let chat = document.getElementById('chat')
-            chat.scrollTop = chat.scrollHeight
+            setTimeout(() => {
+                let chat = document.getElementById('chat')
+                chat.scrollTop = chat.scrollHeight
+            }, 100)
+        },
+        deleteMsg(id) {
+            this.$store.dispatch(msgActionTypes.deleteMsg, id)
         },
     },
     data() {

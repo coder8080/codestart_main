@@ -5,7 +5,7 @@ function sendMsg(form) {
 }
 
 function deleteMsg(id) {
-    return axios.post('/messages/delete', { id }).then((response) => response.data.msg)
+    return axios.post('/messages/delete', { id })
 }
 
 export default {

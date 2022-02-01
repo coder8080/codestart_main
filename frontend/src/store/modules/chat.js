@@ -54,6 +54,14 @@ const mutations = {
     [msgMutationTypes.sendMsgSuccess](state, msg) {
         state.data.messages.push(msg)
     },
+    [msgMutationTypes.deleteMsgSuccess](state, id) {
+        for (let i = 0; i < state.data.messages.length; i++) {
+            if (state.data.messages[i]._id === id) {
+                state.data.messages.splice(i, 1)
+                break
+            }
+        }
+    },
 }
 
 export const actionTypes = {

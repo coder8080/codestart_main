@@ -82,7 +82,6 @@ module.exports.updateSolution = async (req, res) => {
 module.exports.markAsCorrect = async (req, res) => {
     const user = req.body.user
     const id = req.body.id
-    console.log(id)
     let errors = []
     if (!user) errors.push('Сначала войдите на сайт')
     if (!id) errors.push('Укажите id решения')

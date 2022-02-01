@@ -70,8 +70,8 @@ const actions = {
             context.commit(mutationTypes.deleteMsgStart)
             msgApi
                 .deleteMsg(id)
-                .then((msg) => {
-                    context.commit(mutationTypes.deleteMsgSuccess, msg)
+                .then(() => {
+                    context.commit(mutationTypes.deleteMsgSuccess, id)
                     resolve()
                 })
                 .catch((result) => {
