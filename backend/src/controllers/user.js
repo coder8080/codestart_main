@@ -1,3 +1,9 @@
+/**
+ * This is a set of express controllers for working with users/
+ *
+ * Author: coder8080
+ */
+
 const passwordValidator = require('../helpers/passwordValidator')
 const User = require('../models/user')
 const Key = require('../models/key')
@@ -11,12 +17,13 @@ const sha256 = require('sha256')
 const keyGenerator = require('../helpers/keyGenerator')
 const randomMix = require('../helpers/randomMix')
 
+// Password validation function
 function validatePassword(password) {
     let errors = []
     const passwordValidationResult = passwordValidator.validate(password, {
         list: true,
     })
-    // Конвертируем сообщения проверки в понятный текст
+    // Convert errors to text
     for (let error of passwordValidationResult) {
         if (error === 'min') errors.push('пароль слишком короткий (минимальная длинна - 8 символов)')
         else if (error === 'max') errors.push('пароль слишком длинный (максимальная длинна - 100 символов)')
@@ -27,30 +34,30 @@ function validatePassword(password) {
     return errors
 }
 
-/* Создание пользователя */
+/* User registration */
 module.exports.register = async (req, res) => {
-    // Получаем введённые данные
+    // Get data
     const credentials = req.body
-    // Объявляем массив ошибок
+    // Create errors arr
     let errors = []
-    // Проверяем, указано ли имя пользователя
+    // Check if username is specified
     if (!credentials.username) {
-        // Если нет, записываем сообщение об ошибке
+        // If it isn't, add an error
         errors.push('введите имя пользователя')
     } else {
-        // Если да, то проверяем, не занято ли оно
+        // If so, check if it is busy
         if ((await User.count({ username: credentials.username })) > 0) {
             errors.push('пользователь с таким именем уже сущетсвует')
         }
     }
-    // Проверяем, указана ли электронная почта
+    // Check if email is specified
     if (!credentials.email) {
-        // Если нет, записываем сообщение об ошибке
+        // If it sin't, add error
         errors.push('введите электронную почту')
     } else {
-        // Если да, то проверяем, верно и она указана
+        // If so, validate it
         if (emailValidator.validate(credentials.email)) {
-            // Если да, то проверяем, не занята ли она
+            // If it's ok, check if it is busy
             if (await User.count({ email: credentials.email })) {
                 errors.push('пользователь с такой электронной почтой уже существует')
             }
@@ -58,28 +65,28 @@ module.exports.register = async (req, res) => {
             errors.push('введите корректный адрес электронной почты')
         }
     }
-    // Проверяем, повторён ли пароль
+    // Check if the second password is specified
     if (!credentials.repeatPassword) {
         errors.push('повторите пароль')
     }
-    // Проверяем, указан ли пароль
+    // Check if the password is specified
     if (!credentials.password) {
         errors.push('введите пароль')
     } else {
-        // Если да, проверяем его на соответствие требованиям
+        // If it is, validate it
         const passwordValidationErrors = validatePassword(credentials.password)
         errors.push(...passwordValidationErrors)
         if (credentials.repeatPassword !== credentials.password) {
             errors.push('пароли не совпадают')
         }
     }
-    // Если есть хоть одна ошибка, то отправляем их
+    // If there is at least one error, send them (or it)
     if (errors[0]) {
         res.status(401).json({
             errors,
         })
     } else {
-        // Если нет, то создаём пользователя
+        // If there aren't any errors, create a new user and send him
         const user = new User({
             username: credentials.username,
             email: credentials.email,
@@ -99,12 +106,13 @@ module.exports.register = async (req, res) => {
     }
 }
 
-/* Вход на сайт */
+/* Sign in */
 module.exports.login = async (req, res) => {
-    // Создание необходимых переменных
+    // Get data
     const credentials = req.body
+    // Create errors arr
     let errors = []
-    // Проверка электронной почты
+    // Email validation
     if (!credentials.email) {
         errors.push('введите электронную почту')
     } else {
@@ -112,16 +120,16 @@ module.exports.login = async (req, res) => {
             errors.push('введите корректный адрес электронной почты')
         }
     }
-    // Проверка пароля (на наличие)
+    // Checki if the password is specified
     if (!credentials.password) errors.push('введите пароль')
     if (!errors[0]) {
-        // Если ещё не было найдено ошибок, то получаем пользователя
+        // If there aren't any errors, try to get user from db
         let user = (await User.find({ email: credentials.email }))[0]
         if (user) {
-            // Если пользователь был получен, то проверяем пароль
+            // If the user exists, validate password
             const passwordHash = sha256.x2(credentials.password)
             if (user.password === passwordHash) {
-                // Если пароль совпал, то создаём токен и отправляем его
+                // If the passwords matched, create authorization token and send it
                 const token = encodeEmail(user.email)
                 res.status(200).json({
                     user: {
@@ -134,24 +142,27 @@ module.exports.login = async (req, res) => {
                     },
                 })
             } else {
-                // Если пароль не совпал, то создам сообщение об ошибке
+                // If the passwords didn't match, send an error
                 errors.push('электронная почта или пароль неверны')
             }
         } else {
-            // Если пользователя с такой электронной почтой не существует, то создаем ошибку
+            // If the user doesn't exist, send an error
             errors.push('пользователя с такой электронной почтой не существует')
         }
-    }
-    if (errors[0]) {
+    } else {
+        // If there are any errors, send them
         res.status(401).json({
             errors,
         })
     }
 }
 
+/* Token validation */
 module.exports.validateToken = async (req, res) => {
+    // Get user (for more understanding, look at auth api)
     const user = req.body.user
     if (user) {
+        // If user exists, send him
         res.status(200).json({
             user: {
                 username: user.username,
@@ -162,15 +173,20 @@ module.exports.validateToken = async (req, res) => {
             },
         })
     } else {
+        // If user doesn't exist, respond with 401 status
         res.status(401).end()
     }
 }
 
+/* User settings update */
 module.exports.updateSettings = async (req, res) => {
+    // Get user
     const user = req.body.user
     if (user) {
+        // If the user exists, get settings
         const settings = req.body
         let errors = []
+        // Validate username
         if (!settings.username) {
             errors.push('укажите имя пользователя')
         } else if (settings.username !== user.username) {
@@ -179,6 +195,7 @@ module.exports.updateSettings = async (req, res) => {
                 errors.push('это имя пользователя уже занято')
             }
         }
+        // Validate email
         if (!settings.email) {
             errors.push('укажите электронную почту')
         } else {
@@ -191,12 +208,15 @@ module.exports.updateSettings = async (req, res) => {
                 }
             }
         }
+        // If the bio isn't specified, just set it to nothing
         if (!settings.bio) settings.bio = ''
         if (errors[0]) {
+            // If there are any errors, send them
             res.status(401).json({
                 errors,
             })
         } else {
+            // If there aren't ane errors, update settings
             await User.update(
                 { _id: user.id },
                 {
@@ -206,6 +226,7 @@ module.exports.updateSettings = async (req, res) => {
                     theme: settings.theme,
                 }
             )
+            // Send updated user
             let updatedUser = (await User.find({ _id: user.id }))[0]
             res.status(200).json({
                 user: {
@@ -218,16 +239,21 @@ module.exports.updateSettings = async (req, res) => {
             })
         }
     } else {
+        // If the user doesn't exist, sending an error
         res.status(401).json({
             errors: ['сначала войдите в аккаунт'],
         })
     }
 }
 
+/* User level update */
 module.exports.updateLevel = async (req, res) => {
+    // Get user
     const user = req.body.user
     if (user) {
+        // If the user exists
         const lessonsCount = await Lesson.estimatedDocumentCount()
+        // If the user hasn't finished lessons, rise his level
         if (user.level !== lessonsCount) {
             await User.update({ id: user.id }, { level: user.level + 1 })
             let updatedUser = (await User.find({ id: user.id }))[0]
@@ -244,6 +270,7 @@ module.exports.updateLevel = async (req, res) => {
                 haveFinished,
             })
         } else {
+            // If the user has finished all lessons, nothing to do
             res.status(200).json({
                 user: {
                     username: user.username,
@@ -255,22 +282,28 @@ module.exports.updateLevel = async (req, res) => {
             })
         }
     } else {
+        // If the user wasn't provided, send an error
         res.status(401).json({ errors: ['сначала войдите на сайт'] })
     }
 }
 
+/* Generate and send key for password reset */
 module.exports.generateKey = async (req, res) => {
+    // Get email
     const email = req.body.email
     if (email) {
+        // If email was specified, try to get user
         const user = (await User.find({ email }))[0]
         if (user) {
             const userEmail = user.email
+            // Create key
             const key_string = keyGenerator(20)
             const key_row = new Key({
                 userEmail: userEmail,
                 key: key_string,
             })
             await key_row.save()
+            // Send email
             mailerApi
                 .sendMail({
                     to: email,
@@ -297,9 +330,12 @@ module.exports.generateKey = async (req, res) => {
     }
 }
 
+/* Verify password reset key */
 module.exports.verifyKey = async (req, res) => {
+    // Get key
     const key_string = req.body.key
     if (key_string) {
+        // Verify key
         const key_row = (await Key.find({ key: key_string }))[0]
         if (key_row) {
             res.status(200).end()
@@ -315,10 +351,13 @@ module.exports.verifyKey = async (req, res) => {
     }
 }
 
+/* Reset password */
 module.exports.resetPassword = async (req, res) => {
+    // Get data
     const key_string = req.body.key
     const password = req.body.password
     const password_repeat = req.body.password_repeat
+    // Validate data
     if (!(key_string && password && password_repeat)) {
         res.status(401).json({
             errors: ['укажите пароль и повторите его'],
@@ -332,7 +371,6 @@ module.exports.resetPassword = async (req, res) => {
         })
         return
     }
-    const user = (await User.find({ email: key_row.userEmail }))[0]
     if (password !== password_repeat) {
         res.status(401).json({
             errors: ['пароли не совпадают'],
@@ -344,17 +382,23 @@ module.exports.resetPassword = async (req, res) => {
         res.status(401).json({ errors: passwordValidationErrors })
         return
     }
+    // Update password
+    const user = (await User.find({ email: key_row.userEmail }))[0]
     user.password = sha256.x2(password)
     await Key.deleteOne({ userEmail: user.email })
     await user.save()
     res.status(200).end()
 }
 
+// Get user profile
 module.exports.getUserProfile = async (req, res) => {
+    // Get username
     const username = req.params.username
     if (username) {
+        // Get user
         user = (await User.find({ username }))[0]
         if (user) {
+            // Get user profile and send it
             programs = (await Program.find({ ownerUsername: user.username })).reverse()
             res.status(200).json({
                 user: {
@@ -376,11 +420,15 @@ module.exports.getUserProfile = async (req, res) => {
     }
 }
 
+/* Get feed */
 module.exports.getFeed = async (req, res) => {
+    // Get data
     let pagination = req.params.pagination
     const user = req.body.user
     languages = user.languages
+    // Create errors arr
     let errors = []
+    // Validate data
     if (!user) errors.push('сначала войдите на сайт')
     if (!pagination) {
         errors.push('укажите номер страницы (начинается с 0)')
@@ -395,10 +443,12 @@ module.exports.getFeed = async (req, res) => {
         if (!languages[0]) errors.push('нет первого языка')
         if (typeof languages[0] !== 'string') errors.push('каждый язык должен быть строкой')
     }
+    // If there are any errors, send them
     if (errors[0]) {
         res.status(401).json({ errors })
         return
     }
+    // Get and send feed
     programs = []
     for (lang of languages) {
         programs.push(...(await Program.find({ lang })))
