@@ -1,5 +1,4 @@
 const Program = require('../models/program')
-const User = require('../models/user')
 
 module.exports.getProgram = async (req, res) => {
     id = req.params.id
