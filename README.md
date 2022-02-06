@@ -1,113 +1,113 @@
 # CodeStart
 
-Code</>Start - сайт для запсанного мной краткого курса по html-css-js.
-Создавался как школьный проект в 2021-2022 учебном году.
-Тогда я был в 7-ом классе.
+Code</>Start - site for my short html-css-js course.
+Was made as my school project in 2021-2022 academic year.
+I was in 7-th grade.
 
-## Спецификации:
+## Specifications:
 
--   Набор компонентов: _MENV_
--   Использованы языки: _JS_, _HTML_, _CSS_
--   Использованы фреймворки: _Vue_, _Express_, _Bootstrap_
--   Использованы технологии: _Docker_, _Docker-Compose_
+-   Tech stack: _MENV_
+-   Languages: _JS_, _HTML_, _CSS_
+-   Frameworks: _Vue_, _Express_, _Bootstrap_
+-   Technologies: _Docker_, _Docker-Compose_
 
-# Содержание
+# Table of contents
 
--   [Системные требования](#системные-требования)
--   [Запуск](#запуск)
-    -   [Запуск в режиме разработки](#запуск-в-режиме-разработки)
--   [Настройка](#настройка)
-    -   [Порт](#порт)
-    -   [Почта](#почта)
+-   [System requirements](#system-requirements)
+-   [Launch](#launch)
+    -   [Launch in development mode](#launch-in-development-mode)
+-   [Setup](#setup)
+    -   [Host](#host)
+    -   [Port](#port)
+    -   [E-mail](#e-mail)
+-   [Goals](#goals)
 
-# Системные требования
+# System requirements
 
--   Терминал (`powershell`, `gnome-terminal`, `konsole`, etc.)
--   Установленный `docker`
--   Запущенный демон docker'а
--   Установленный `docker-compose` (если он не был установлен вместе с docker)
+-   Terminal (`powershell`, `gnome-terminal`, `konsole`, etc.)
+-   Installed `docker`
+-   Started docker daemon
+-   Installed `docker-compose` (if it wasn't installed with docker)
 
-# Запуск
+# Launch
 
-Сначала скачиваем этот репозиторий:
+Download this repo:
 
 ```bash
 git clone https:///github.com/coder8080/codestart_main
 cd codestart_main
 ```
 
-Затем запускаем проект:
+Start project in production mode:
 
 ```bash
 docker-compose up --build
 ```
 
-При возникновении ошибки на операционной системе linux, попробуйте запустить команду от имени root'а,
-то есть
+If you get error on linux, try to start this command with sudo:
 
 ```bash
 sudo docker-compose up --build
 ```
 
-Первый запуск может быть долгим и потребовать быстрого интерент-соединения, так как необходимо скачать
-некоторые образы docker.
+First launch may be long and require stable internet connect to download necessary docker images.
 
-## Запуск в режиме разработки
+## Launch in development mode
 
-Чем режим разработки отличается от обычного? Внешне различия не заметны, но вот основной перчень:
+Difference between production and development modes:
 
--   Vue не делает сборку для продакшена, а сам запускается сервер, то есть изменения в файле
-    мнгновенно отражаются в браузере
--   Микросервисы, использующие express запускаются с помощью nodemon, то есть при внесении
-    изменений перезапускаются
--   Порт базы данных (27017) проброшен на реальную машину
+-   Vue starts a live update server instead of creating production build
+-   Microservices, written with express.js use real-time update by nodemon
+-   Database port (27017) forwarded to a host
 
-Чтобы запустить сайт в dev режиме, выполните следующую команду:
+To start site in the development mode, use this command:
 
 ```bash
 docker-compose -f docker-compose.yml -f docker-compose.development.yml up --build
 ```
 
-И при возникновении ошибка на linux соответственно от имени рута:
+If you get error on linux, here is this command with sudo:
 
 ```bash
 sudo docker-compose -f docker-compose.yml -f docker-compose.development.yml up --build
 ```
 
-# Настройка
+# Setup
 
-В предыдущем разделе сказано, как запустить проект. Но для корректной работы его нужно настроить.
+For the site to work correctly, you need to setup it.
 
-## Порт
+## Host
 
-Чтобы изменить порт, на котором запускается весь сайт в production-режиме, откройте файл `codestart_main/nginx/nginx.conf.prod`
+Attention! This is a required parametr.
+You have to specify the host (on which domain the site is running) in `docker-compose.yml` file
+in the root folder.
+Go to services > nginx > environment > HOST and change it to needed (like localhost, 192.168.0.3,
+www.example.com, etc.)
 
-На второй строке вы можете увидеть следующий код:
+## Port
 
-```
-listen 8080;
-```
+To change the port, on which the site runs, go to `docker-compose.yml` file in the root folder,
+then services > nginx > environment > PORT (line 63) and change it to needed.
 
-Замените порт 8080 на нужный вам.
-Чтобы изменить порт запуска в dev-режиме, проделайте то же самое с файлом `codestart_main/nginx/nginx.conf.dev`
+## E-mail
 
-## Почта
+In order for users to reset their paswords, the site needs an email address.
+I simply created a google account and used it. I think, the site will work with any other email
+provider - mail.ru, yandex.ru and others, but I haven't tested it. So i advice you to create
+a google account too.
+Settings of an email account are specified at `docker-compose.yml` file in the root folder at
+services > mailer > environment > LOGIN and PASSWORD (lines 35 and 36).
+If you won't specify email account settings, password reset won't work.
 
-Чтобы пользователи могли сбросить пароль, сайту нужна почта. Я просто создавал специальный
-аккаунт google. Может сработать и с яндекс почтой, mail.ru, но я не пробовал. Настройки указываются
-в файле `docker-compose.yml` в корневой директории проекта на строках 35 и 36. Если указаны неверные данные, сбор пароля работать не будет.
+# Goals
 
-# Планы
-
--   [x] Добавить отображение решений под вопросом
--   [x] Добавить возможность удалять свои вопросы
--   [x] Добавить возможность удалять свои решения
--   [x] Добавить возможность изменять вопросы
--   [x] Добавить возможность изменять решения
--   [x] Добавить возможность помечать решение как корректное
--   [ ] Добавить домашнее задание
--   [x] Страница рекомендаций на основе языков
--   [ ] Добавить сообщения между пользователями
--   [ ] Добавить главного пользователя
--   [ ] Добавить модераторов
--   [ ] Добавить кнопку "Обратить внимание модераторов"
+-   [x] Add solutions display under question
+-   [x] Add an ability to edit & remove your questions
+-   [x] Add an ability to edit & remove your solutions
+-   [x] Add an ability to mark solution as correct
+-   [ ] Add homework for each lesson
+-   [x] Add feed page
+-   [x] Add messages between users
+-   [ ] Add root user
+-   [ ] Add moderators
+-   [ ] Add button "draw the attention of moderator"
