@@ -54,12 +54,13 @@ services:
     restart: unless-stopped
   nginx:
     container_name: codestart-nginx
-    image: nginx:stable-alpine
+    build: ./nginx
     depends_on:
       - frontend
       - backend
-    volumes:
-      - ./nginx/nginx.conf.prod:/etc/nginx/conf.d/nginx.conf
+    environment:
+      - HOST=localhost
+      - PORT=8080
     networks:
       - codestart-network
     ports:

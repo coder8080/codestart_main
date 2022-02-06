@@ -21,6 +21,3 @@ services:
     command: npm run dev
     volumes:
       - ./mailer/src:/usr/src/app/src
-  nginx:
-    volumes:
-      - ./nginx/nginx.conf.dev:/etc/nginx/conf.d/nginx.conf
