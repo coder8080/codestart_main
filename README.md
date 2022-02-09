@@ -63,13 +63,13 @@ Difference between production and development modes:
 To start site in the development mode, use this command:
 
 ```bash
-docker-compose -f docker-compose.yml -f docker-compose.development.yml up --build
+docker-compose -f compose.yml -f compose.development.yml up --build
 ```
 
 If you get error on linux, here is this command with sudo:
 
 ```bash
-sudo docker-compose -f docker-compose.yml -f docker-compose.development.yml up --build
+sudo docker-compose -f compose.yml -f compose.development.yml up --build
 ```
 
 # Setup
@@ -79,7 +79,7 @@ For the site to work correctly, you need to setup it.
 ## Host
 
 Attention! This is a required parametr.
-You have to specify the host (on which domain the site is running) in `docker-compose.yml` file
+You have to specify the host (on which domain the site is running) in `compose.yml` file
 in the root folder.
 Go to services > nginx > environment > HOST and change it to needed (like localhost, 192.168.0.3,
 www.example.com, etc.)
@@ -96,10 +96,10 @@ I simply created a google account and used it. I think, the site will work with 
 email provider - mail.ru, yandex.ru, etc. , but I haven't tested it. So i advice you
 to create a google account too.
 If you use email provider, distinct from google, you need to explicitly specify his smtp
-server address in `docker-compose.yml` > services > mailer > environment > HOST.
+server address in `compose.yml` > services > mailer > environment > HOST.
 If you use google, you don't need to change this parametr.
 Required settings of an email account (login and password) are specified at
-`docker-compose.yml` file in the root folder at services > mailer > environment >
+`compose.yml` file in the root folder at services > mailer > environment >
 LOGIN and PASSWORD (lines 35 and 36).
 If you won't specify email account settings, password reset won't work.
 
