@@ -87,7 +87,7 @@ www.example.com, etc.)
 ## Port
 
 To change the port, on which the site runs, go to `docker-compose.yml` file in the root folder,
-then services > nginx > environment > PORT (line 63) and change it to needed.
+then services > nginx > environment > PORT (line 61) and change it to needed.
 
 ## E-mail
 
@@ -100,7 +100,7 @@ server address in `compose.yml` > services > mailer > environment > HOST.
 If you use google, you don't need to change this parametr.
 Required settings of an email account (login and password) are specified at
 `compose.yml` file in the root folder at services > mailer > environment >
-LOGIN and PASSWORD (lines 35 and 36).
+LOGIN and PASSWORD (lines 33 and 34).
 If you won't specify email account settings, password reset won't work.
 
 # Goals
