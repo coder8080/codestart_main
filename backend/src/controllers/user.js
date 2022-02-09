@@ -108,6 +108,7 @@ module.exports.register = async (req, res) => {
 
 /* Sign in */
 module.exports.login = async (req, res) => {
+    console.log('signin in')
     // Get data
     const credentials = req.body
     // Create errors arr
@@ -143,11 +144,11 @@ module.exports.login = async (req, res) => {
                 })
             } else {
                 // If the passwords didn't match, send an error
-                errors.push('электронная почта или пароль неверны')
+                res.status(401).json({ errors: ['электронная почта или пароль неверны'] })
             }
         } else {
             // If the user doesn't exist, send an error
-            errors.push('пользователя с такой электронной почтой не существует')
+            res.status(401).json({ errors: ['пользователя с такой электронной почтой не существует'] })
         }
     } else {
         // If there are any errors, send them
