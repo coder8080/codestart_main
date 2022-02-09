@@ -92,11 +92,15 @@ then services > nginx > environment > PORT (line 63) and change it to needed.
 ## E-mail
 
 In order for users to reset their paswords, the site needs an email address.
-I simply created a google account and used it. I think, the site will work with any other email
-provider - mail.ru, yandex.ru and others, but I haven't tested it. So i advice you to create
-a google account too.
-Settings of an email account are specified at `docker-compose.yml` file in the root folder at
-services > mailer > environment > LOGIN and PASSWORD (lines 35 and 36).
+I simply created a google account and used it. I think, the site will work with any other
+email provider - mail.ru, yandex.ru, etc. , but I haven't tested it. So i advice you
+to create a google account too.
+If you use email provider, distinct from google, you need to explicitly specify his smtp
+server address in `docker-compose.yml` > services > mailer > environment > HOST.
+If you use google, you don't need to change this parametr.
+Required settings of an email account (login and password) are specified at
+`docker-compose.yml` file in the root folder at services > mailer > environment >
+LOGIN and PASSWORD (lines 35 and 36).
 If you won't specify email account settings, password reset won't work.
 
 # Goals
