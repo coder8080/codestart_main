@@ -1,8 +1,10 @@
+/** Set of express controllers for working with chats */
+
 const Chat = require('../models/chat')
 const Msg = require('../models/msg')
 const User = require('../models/user')
 
-/** Получение всех чатов пользователя */
+/** Get all user's chats */
 module.exports.getChatList = async (req, res) => {
     const user = req.body.user
     if (!user) {
@@ -25,7 +27,7 @@ module.exports.getChatList = async (req, res) => {
     res.status(200).json({ chats: result })
 }
 
-/** Получение одного чата и всех его сообщений */
+/** Get chat and all it's messages by id */
 module.exports.getChatById = async (req, res) => {
     const user = req.body.user
     const id = req.body.id
@@ -48,6 +50,7 @@ module.exports.getChatById = async (req, res) => {
     res.status({ chat: { _id: chat._id, messages } })
 }
 
+/** Get chat and all it's messages by usernames */
 module.exports.getChat = async (req, res) => {
     const user = req.body.user
     const username2 = req.body.username

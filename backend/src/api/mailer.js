@@ -1,3 +1,5 @@
+/** Functions for working with mailer service */
+
 const axios = require('axios')
 const { mailerUrl } = require('../config')
 

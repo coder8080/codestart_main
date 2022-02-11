@@ -1,3 +1,5 @@
+/** Generate keys for password reset */
+
 const symbols = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 module.exports = (len) => {
     let password = ''

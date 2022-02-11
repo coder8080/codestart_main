@@ -1,5 +1,8 @@
+/** Set of express controllers for working with programs */
+
 const Program = require('../models/program')
 
+/** Get programs */
 module.exports.getProgram = async (req, res) => {
     id = req.params.id
     if (id) {
@@ -14,6 +17,7 @@ module.exports.getProgram = async (req, res) => {
     }
 }
 
+/** Create new program */
 module.exports.createProgram = async (req, res) => {
     user = req.body.user
     if (user) {
@@ -50,6 +54,7 @@ module.exports.createProgram = async (req, res) => {
     }
 }
 
+/** Get all programs created by current user */
 module.exports.getMyPrograms = async (req, res) => {
     user = req.body.user
     if (user) {
@@ -64,6 +69,7 @@ module.exports.getMyPrograms = async (req, res) => {
     }
 }
 
+/** Delete program */
 module.exports.deleteProgram = async (req, res) => {
     user = req.body.user
     id = req.body.id
@@ -87,6 +93,7 @@ module.exports.deleteProgram = async (req, res) => {
     res.status(200).end()
 }
 
+/** Edit existing program */
 module.exports.editProgram = async (req, res) => {
     user = req.body.user
     id = req.body.id
@@ -113,7 +120,7 @@ module.exports.editProgram = async (req, res) => {
         res.status(401).json({ errors })
         return
     }
-    await Program.update(
+    await Program.updateOne(
         { _id: id },
         {
             title: form.title,
@@ -127,6 +134,7 @@ module.exports.editProgram = async (req, res) => {
     res.status(200).json({ program: editedProgram })
 }
 
+/** Check if the program belongs to current user */
 module.exports.checkAffiliation = async (req, res) => {
     user = req.body.user
     id = req.body.id

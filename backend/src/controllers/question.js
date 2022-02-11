@@ -1,6 +1,9 @@
+/** Set of express controllers for working with questions */
+
 const Question = require('../models/question')
 const Solution = require('../models/solution')
 
+/** Create new question */
 module.exports.createQuestion = async (req, res) => {
     user = req.body.user
     form = req.body.form
@@ -27,6 +30,7 @@ module.exports.createQuestion = async (req, res) => {
     res.status(200).json({ question })
 }
 
+/** Delete existing question */
 module.exports.deleteQuestion = async (req, res) => {
     const user = req.body.user
     const id = req.body.id
@@ -51,6 +55,7 @@ module.exports.deleteQuestion = async (req, res) => {
     res.status(200).end()
 }
 
+/** Update existing question */
 module.exports.updateQuestion = async (req, res) => {
     const user = req.body.user
     const form = req.body.form
@@ -73,7 +78,7 @@ module.exports.updateQuestion = async (req, res) => {
         if (question.ownerUsername === user.username) {
             if (!form.title) form.title = question.title
             if (!form.description) form.description = question.description
-            await Question.update({ _id: id }, { title: form.title, description: form.description })
+            await Question.updateOne({ _id: id }, { title: form.title, description: form.description })
             const updatedQuestion = (await Question.find({ _id: id }))[0]
             res.status(200).json({ question: updatedQuestion })
         } else {

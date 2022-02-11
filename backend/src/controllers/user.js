@@ -218,7 +218,7 @@ module.exports.updateSettings = async (req, res) => {
             })
         } else {
             // If there aren't ane errors, update settings
-            await User.update(
+            await User.updateOne(
                 { _id: user.id },
                 {
                     username: settings.username,
@@ -256,7 +256,7 @@ module.exports.updateLevel = async (req, res) => {
         const lessonsCount = await Lesson.estimatedDocumentCount()
         // If the user hasn't finished lessons, rise his level
         if (user.level !== lessonsCount) {
-            await User.update({ id: user.id }, { level: user.level + 1 })
+            await User.updateOne({ id: user.id }, { level: user.level + 1 })
             let updatedUser = (await User.find({ id: user.id }))[0]
             let haveFinished = false
             if (updatedUser.level === lessonsCount) haveFinished = true

@@ -1,7 +1,10 @@
+/** Set of express controllers for working with messages (further - msg)*/
+
 const Chat = require('../models/chat')
 const Msg = require('../models/msg')
 const User = require('../models/user')
 
+/** Send message to another user */
 module.exports.sendMsg = async (req, res) => {
     const user = req.body.user
     const receiver = req.body.receiver
@@ -36,6 +39,7 @@ module.exports.sendMsg = async (req, res) => {
     res.status(200).json({ msg })
 }
 
+/** Delete your message */
 module.exports.deleteMsg = async (req, res) => {
     const user = req.body.user
     const id = req.body.id

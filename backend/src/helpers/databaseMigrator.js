@@ -1,7 +1,9 @@
+/** This code applies lessons and sublessons to the db */
+
 const Lesson = require('../models/lesson')
 const SubLesson = require('../models/sublesson')
 module.exports = async () => {
-    // Синхронизируем уроки
+    // Synchronize lessons
     const lessons_needed = require('../config').lessons
     await Lesson.deleteMany({})
     for (let lesson of lessons_needed) {
@@ -9,7 +11,7 @@ module.exports = async () => {
         new_lesson.save()
     }
 
-    // Синхронизируем дополнения к урокам
+    // Synchronize sublessons
     const sub_lessons_needed = require('../config').subLessons
     await SubLesson.deleteMany({})
     for (let sub_lesson of sub_lessons_needed) {

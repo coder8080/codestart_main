@@ -1,26 +1,25 @@
+/** Authorization middleware */
+
 const jwt = require('../helpers/jwt')
 const User = require('../models/user')
 
-/* Middleware авторизации */
 module.exports = async (req, res, next) => {
     try {
-        // Получаем id пользователя
+        // Get user id
         const email = jwt.decode(req.headers.authorization)
-        // Получаем пользователя
+        // Get user
         const user = await User.findOne({
             email,
         })
         if (user) {
-            // Если он есть, то сохраняем его
+            // If the user exist, save him
             req.body.user = user
             next()
         } else {
-            // Если что-то пошло не так, то запрос не должен быть выполнен
             res.status(401).end()
         }
     } catch (e) {
         console.log(e)
-        // Если что-то пошло не так, то запрос не должен быть выполнен
         res.status(401).json({ errors: ['ваш токен не подтверждён. войдите на сайт'] })
         return
     }
