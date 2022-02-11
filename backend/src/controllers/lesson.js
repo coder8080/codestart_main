@@ -1,9 +1,12 @@
+/** Set of express controllers for working with lessons */
+
 const Lesson = require('../models/lesson')
 const SubLesson = require('../models/sublesson')
 const Solution = require('../models/solution')
 const Question = require('../models/question')
 const mailerApi = require('../api/mailer')
 
+/** Get lesson */
 module.exports.getLesson = async (req, res) => {
     const user = req.body.user
     const number = Number(req.params.number)
@@ -45,6 +48,7 @@ module.exports.getLesson = async (req, res) => {
     }
 }
 
+/** Get sublesson */
 module.exports.getSubLesson = async (req, res) => {
     const user = req.body.user
     if (user) {
@@ -66,6 +70,7 @@ module.exports.getSubLesson = async (req, res) => {
     }
 }
 
+/** Get all abailable lessons */
 module.exports.getAllLessons = async (req, res) => {
     const user = req.body.user
     if (user) {
@@ -80,6 +85,7 @@ module.exports.getAllLessons = async (req, res) => {
     }
 }
 
+/** Get number of lessons */
 module.exports.countLessons = async (req, res) => {
     const user = req.body.user
     if (user) {
@@ -92,25 +98,4 @@ module.exports.countLessons = async (req, res) => {
             errors: ['сначала войдите на сайт'],
         })
     }
-}
-
-module.exports.testMailer = async (req, res) => {
-    mailerApi
-        .testMailer()
-        .then((response) => {
-            res.status(200).json(response.data)
-        })
-        .catch((result) => {
-            res.status(500).json({
-                error: result,
-            })
-        })
-}
-
-module.exports.sendTestMail = async (req, res) => {
-    mailerApi.sendMail({
-        to: 'coder8080@yandex.ru',
-        subject: 'test mail',
-        text: 'password reset',
-    })
 }
