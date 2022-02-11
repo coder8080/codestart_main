@@ -1,11 +1,11 @@
-const jwt = require('jsonwebtoken')
+const jwt = require('../helpers/jwt')
 const User = require('../models/user')
 
 /* Middleware авторизации */
 module.exports = async (req, res, next) => {
     try {
         // Получаем id пользователя
-        const email = jwt.verify(req.headers.authorization, process.env.SECRET).email
+        const email = jwt.decode(req.headers.authorization)
         // Получаем пользователя
         const user = await User.findOne({
             email,
