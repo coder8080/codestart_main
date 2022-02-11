@@ -78,11 +78,17 @@ For the site to work correctly, you need to setup it.
 
 ## Host
 
-Attention! This is a required parametr.
+**! Attention !**
+This is a required parameter.
+
 You have to specify the host (on which domain the site is running) in `compose.yml` file
 in the root folder.
 Go to services > nginx > environment > HOST and change it to needed (like localhost, 192.168.0.3,
 www.example.com, etc.)
+
+Then, you need to specify an api address. If you won't change nginx config file, it will
+look like http(s)://YOUR_DOMAIN(:PORT)/api.
+You need to insert it to base folder > frontend > src > api > axios.js > line 3 - baseURL.
 
 ## Port
 
