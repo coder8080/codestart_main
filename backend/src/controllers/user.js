@@ -15,7 +15,6 @@ const mailerApi = require('../api/mailer')
 const { domain } = require('../config')
 const sha256 = require('sha256')
 const keyGenerator = require('../helpers/keyGenerator')
-const randomMix = require('../helpers/randomMix')
 
 // Password validation function
 function validatePassword(password) {
