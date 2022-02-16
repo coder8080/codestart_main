@@ -1,25 +1,24 @@
 # Code</>Start - backend
 
-В этой папке находится код backend микросервиса. Документацию по всему проекту вы можете найти в главном README файле, который расположен в корневой директории проекта.
+This folder contains backend microservice code. You can find whole documentation in root
+project folder in README file.
 
-# Информация
+# Specification
 
--   Содержит код backend'а и файлы Docker для сборки образа
--   Написан на фреймворке Express.js
--   Для взаимодействия с базой данных использован Mongoose ORM
+-   Contains code of backend microservice and Dockerfiles
+-   Written in express.js framework
+-   Mongoose ORM is used to interact with db
 
-# Структура
+# Structure
 
-Проект имеет стандартную структуру backend сервера.
-
--   `src` - исходный код
-    -   `api` - код взаимодействия с другими микросервисами
-    -   `config` - настройки
-    -   `controllers` - контроллеры - взаимодействие с базой данных на основе запросов с frontend
-    -   `helpers` - функции-помощники
-    -   `middlewares` - промежуточные обработчики запросов
-    -   `models` - модели таблиц в базе данных
-    -   `routes` - пути к контроллерам
-    -   `main.js` - главный файл - запуск сервера
--   `Dockerfile` - инструкции Docker для создания образа
--   `nodemon.js` - конфигурация запуска сервера с помощью библиотеки nodemon
+-   `src` - source code
+    -   `api` - interaction with other services
+    -   `config` - settings
+    -   `controllers` - interaction with db based on frontend requests
+    -   `helpers` - helper functions
+    -   `middlewares` - intermediate request handlers
+    -   `models` - database tables models
+    -   `routes` - pathes to controllers
+    -   `main.js` - server start main file
+-   `Dockerfile` - docker instructions for building image
+-   `nodemon.js` - nodemon configuration for server start

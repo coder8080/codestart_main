@@ -1,13 +1,14 @@
 # Code</>Start - lessons
 
-В этой папке находится код микросервиса, отвечающего за хранение видеоуроков. Документацию по всему проекту вы можете найти в главном README файле, который расположен в корневой директории проекта.
+This folder contains code of serving videos microservice. You can find whole documentations
+in the root project folder in REAME file.
 
-# Информация
+# Specification
 
--   Содержит файлы видеоуроков
--   Запускает сервер для раздачи с помощью npm-пакета serve
+-   Serves video lessons files
+-   Starts server using serve js library
 
-# Структура
+# Structure
 
--   `videos` - видеофайлы
--   `Dockerfile` - инструкции Docker для создания образа
+-   `videos` - video files
+-   `Dockerfile` - Docker instructions

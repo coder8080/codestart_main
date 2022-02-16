@@ -1,17 +1,18 @@
 # Code</>Start - mailer
 
-Содержит код микросервиса, отвечающего за рассылку писем. Документацию по всему проекту вы можете найти в главном README файле, который расположен в корневой директории проекта.
+This folder container code of mailer microservice. You can find whole documentation in the
+root project folder in README file.
 
-# Информация
+# Spicification
 
--   Написан с использованием фреймворка Express.js
--   Для отправки писем используется библиотека nodemailer
+-   Written in express.js
+-   Nodemailer is used to send emails
 
-# Структура
+# Structure
 
--   `src` - исходный код
-    -   `config` - файл настроек. Настройки импортируются из файла `compose.yml` в корневой директории проекта.
-    -   `helpers` - содержит код, использование которого в других файлах снижает читаемость кода
-    -   `main.js` - главный файл - запуск сервера и основные функции
--   `Dockerfile` - содержит инструкции Docker для создания образа
--   `nodemon.json` - содержит настройки запуска сервера с помощью nodemon
+-   `src` - source code
+    -   `config` - settings
+    -   `helpers` - helper code
+    -   `main.js` - main file - server start and basic functions
+-   `Dockerfile` - docker instructions for building image
+-   `nodemon.json` - nodemon config to start server

@@ -1,27 +1,27 @@
 # Code</>Start - frontend
 
-В этой папке находится код frontend микросервиса. Документацию по всему проекту вы можете найти в главном README файле, который расположен в корневой директории проекта.
+This folder container frontend microservice code. You can find whole documentation in root
+project frol in README file.
 
-# Информация
+# Specification
 
--   Написан с использованием Vue.js и Bootstrap
--   Содержит код frontend'а и файлы Docker для сборки образа
+-   Written in Vue.js and Bootstrap
+-   Contains code of frontend microservice and Dockerfiles
 
-# Структура
+# Structure
 
-Проект имеет стандартную структуру Vue проекта.
+-   `public` - public files - styles and icons.
+-   `src` - source code
+    -   `api` - code for interaction with backend
+    -   `components` - Vue components (don't confuse with pages)
+    -   `helpers` - helper function
+    -   `router/index.js` - list of page addresses
+    -   `store` - Vuex modules and its main file
+    -   `views` - pages
+    -   `App.vue` - base page
+    -   `main.js` - initialization
+-   `Dockerfile.dev` - Dockerfile for development mode
+-   `Dockerfile.prod` - Dockerfile for production mod
 
--   `public` - публичные файлы - стили и иконки.
--   `src` - исходный код
-    -   `api` - код для взаимодействия с backend'ом
-    -   `components` - Vue компоненты (не путать со страницами)
-    -   `helpers` - некоторые переиспользуемые в коде функции, которые я решил вынести в отдельные файлы
-    -   `router/index.js` - Список адресов страниц
-    -   `store` - модули vuex и главный его файл
-    -   `views` - страницы
-    -   `App.vue` - главная страница
-    -   `main.js` - инициализация
--   `Dockerfile.dev` - инструкции Docker для создания контейнера в режиме разработки
--   `Dockerfile.prod` - инструкции Docker для создания контейнера в режиме production
-
-Некоторые файлы я пропустил, так как взаимодействовать с ними не приходится - они принадлежат исключительно Vue.
+Some files are not listed because you don't need to work with them - they are a part
+of Vue.js
