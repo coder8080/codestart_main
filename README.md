@@ -58,7 +58,8 @@ Difference between production and development modes:
 
 -   Vue starts a live update server instead of creating production build
 -   Microservices, written with express.js use real-time update by nodemon
--   Database port (27017) forwarded to a host
+-   Database port (27017) forwarded to a host (it is turned off in productions mode
+    in security considerations)
 
 To start site in the development mode, use this command:
 
@@ -87,8 +88,19 @@ Go to services > nginx > environment > HOST and change it to needed (like localh
 www.example.com, etc.)
 
 Then, you need to specify an api address. If you won't change nginx config file, it will
-look like http(s)://YOUR_DOMAIN(:PORT)/api.
+look like
+`http(s)://YOUR_DOMAIN(:[PORT](#port))/api.`
+If the port is 80, you don't need ot specify it.
 You need to insert it to base folder > frontend > src > api > axios.js > line 3 - baseURL.
+
+After that, you need to specify an address of microservice which serves videos. If you
+haven't changed smth in the poject, it will look like
+`http(s)://YOUT_DOMAIN(:[PORT](#port))/lessons/` .
+Don't forget / on the end.
+You need to specify it in frontend > src > views > Lessons.vue > line 293 - base_lesson_url.
+
+P. S. In future, I will create a property of docker-compose environment, so you won't
+need to specify it in two files manually.
 
 ## Port
 
@@ -118,6 +130,7 @@ If you won't specify email account settings, password reset won't work.
 -   [ ] Add homework for each lesson
 -   [x] Add feed page
 -   [x] Add messages between users
+-   [ ] Add a compose file property to specify host for frontend
 -   [ ] Add root user
 -   [ ] Add moderators
 -   [ ] Add button "draw the attention of moderator"
