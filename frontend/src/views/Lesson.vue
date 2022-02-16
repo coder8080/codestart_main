@@ -85,7 +85,7 @@
                                         <hr />
                                         <p>Решений пока нет</p>
                                     </div>
-                                    <div v-if="question.solutions">
+                                    <div v-if="question.solutions && question.solutions[0]">
                                         <div v-for="solution of question.solutions" :key="solution._id" class="mb-3">
                                             <p>
                                                 <router-link

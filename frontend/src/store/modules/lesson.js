@@ -46,7 +46,15 @@ const mutations = {
     },
 
     [questionMutationTypes.createQuestionSuccess](state, question) {
-        state.data.questions.push(question)
+        state.data.questions.push({
+            _id: question._id,
+            title: question.title,
+            description: question.description,
+            isBanned: question.isBanned,
+            lesson: question.lesson,
+            ownerUsername: question.ownerUsername,
+            solutions: [],
+        })
     },
 
     [solutionMutationTypes.createSolutionSuccess](state, { solution, question }) {
@@ -71,6 +79,7 @@ const mutations = {
     },
 
     [solutionMutationTypes.deleteSolutionSuccess](state, id) {
+        console.log('aaa')
         let found = false
         for (let i = 0; i < state.data.questions.length; i++) {
             if (found) break
