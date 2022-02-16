@@ -57,6 +57,7 @@ module.exports.deleteSolution = async (req, res) => {
     res.status(200).end()
 }
 
+/** Edit existing solution */
 module.exports.updateSolution = async (req, res) => {
     const user = req.body.user
     const form = req.body.form
@@ -91,6 +92,7 @@ module.exports.updateSolution = async (req, res) => {
     }
 }
 
+/** Mark existing solution as correct (if the user is an owner of the question) */
 module.exports.markAsCorrect = async (req, res) => {
     const user = req.body.user
     const id = req.body.id

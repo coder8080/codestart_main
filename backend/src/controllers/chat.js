@@ -27,7 +27,7 @@ module.exports.getChatList = async (req, res) => {
     res.status(200).json({ chats: result })
 }
 
-/** Get chat and all it's messages by id */
+/** Get chat and all its messages by id */
 module.exports.getChatById = async (req, res) => {
     const user = req.body.user
     const id = req.body.id
@@ -50,7 +50,7 @@ module.exports.getChatById = async (req, res) => {
     res.status({ chat: { _id: chat._id, messages } })
 }
 
-/** Get chat and all it's messages by usernames */
+/** Get chat and all its messages by usernames */
 module.exports.getChat = async (req, res) => {
     const user = req.body.user
     const username2 = req.body.username
