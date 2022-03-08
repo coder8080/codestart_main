@@ -47,12 +47,7 @@ const mutations = {
 
     [questionMutationTypes.createQuestionSuccess](state, question) {
         state.data.questions.push({
-            _id: question._id,
-            title: question.title,
-            description: question.description,
-            isBanned: question.isBanned,
-            lesson: question.lesson,
-            ownerUsername: question.ownerUsername,
+            ...question,
             solutions: [],
         })
     },
@@ -79,15 +74,11 @@ const mutations = {
     },
 
     [solutionMutationTypes.deleteSolutionSuccess](state, id) {
-        console.log('aaa')
-        let found = false
-        for (let i = 0; i < state.data.questions.length; i++) {
-            if (found) break
+        mainloop: for (let i = 0; i < state.data.questions.length; i++) {
             for (let j = 0; i < state.data.questions[i].solutions.length; i++) {
                 if (state.data.questions[i].solutions[j]._id === id) {
                     state.data.questions[i].solutions.splice(j, 1)
-                    found = true
-                    break
+                    break mainloop
                 }
             }
         }
@@ -103,28 +94,22 @@ const mutations = {
     },
 
     [solutionMutationTypes.updateSolutionSuccess](state, solution) {
-        let found = false
-        for (let i = 0; i < state.data.questions.length; i++) {
-            if (found) break
+        mainloop: for (let i = 0; i < state.data.questions.length; i++) {
             for (let j = 0; j < state.data.questions[i].solutions.length; j++) {
                 if (state.data.questions[i].solutions[j]._id === solution._id) {
                     state.data.questions[i].solutions[j] = solution
-                    found = true
-                    break
+                    break mainloop
                 }
             }
         }
     },
 
     [solutionMutationTypes.markAsCorrectSuccess](state, id) {
-        let found = false
-        for (let i = 0; i < state.data.questions.length; i++) {
-            if (found) break
+        mainloop: for (let i = 0; i < state.data.questions.length; i++) {
             for (let j = 0; i < state.data.questions[i].solutions.length; j++) {
                 if (state.data.questions[i].solutions[j]._id === id) {
                     state.data.questions[i].solutions[j].isCorrect = true
-                    found = true
-                    break
+                    break mainloop
                 }
             }
         }

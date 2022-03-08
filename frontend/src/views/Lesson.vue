@@ -290,7 +290,7 @@ export default {
             currentUser: (state) => state.auth.currentUser,
         }),
         videoPath() {
-            base_lesson_url = 'http://localhost:8080/lessons/'
+            let base_lesson_url = 'http://localhost:8080/lessons/'
             return base_lesson_url + this.lesson.video
         },
         number() {
